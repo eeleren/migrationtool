@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-
-import com.ericsson.pc.migrationtool.Manager;
 import com.ericsson.pc.migrationtool.builder.PhoneConstants;
 
 

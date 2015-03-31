@@ -37,11 +37,27 @@ public class PhoneParser implements Parser {
 	public Parser getNewInstance() {
 		return new PhoneParser();
 	}
+	public List<Phone> execute(String filePath) {
+		if (filePath == null) {
+			return execute();
+		} else {
+			logger.info("SINGLE PARSER EXECUTION STARTED...");
+			String phoneFilePath = PathUtil.getSinglePhoneFilePath(filePath);
+			logger.debug(phoneFilePath + "found");
+			
+			List<String> phonePathList = new ArrayList<String>();
+			phonePathList.add(phoneFilePath);
+			return parse(phonePathList);
+		}
+	}
 	
 	public List<Phone> execute() {
 		logger.info("PARSER EXECUTION STARTED...");
-		List<String> phonePathList = PathUtil.getPhonesFilesPath();
-		
+		List<String> phonePathList = PathUtil.getPhonesFilesPath();	
+		return parse(phonePathList);
+	}
+	
+	public List<Phone> parse(List<String> phonePathList) {
 		List<Phone> phoneList = new ArrayList<Phone>();
 		
 		for (String phoneFilePath : phonePathList) {

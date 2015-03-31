@@ -19,21 +19,26 @@ public class Manager {
 
 	public static void main(String[] args) {
 		String parserClassName = null;
+		String fileToBeParsed = null;
 		Builder builder = new Builder();
 		
-		if (args.length > 0) {
+		if (args.length > 1) {
+			parserClassName = args[0];
+			fileToBeParsed = args[1];
+			
+		} else if (args.length > 0) {
 			parserClassName = args[0];
 		}
 		else {
-			logger.error("Error: No arguments, please provide parser class name.");
+			logger.error("Error: No arguments, please provide parser class name and/or directory to be parsed");
 			return;
 		}
 		
 		try {
 			Class parser = Class.forName("com.ericsson.pc.migrationtool." + parserClassName);
 			
-			((Parser)parser.newInstance()).execute();
-			List<Phone> phones = ((Parser)parser.newInstance()).execute();
+			//((Parser)parser.newInstance()).execute();
+			List<Phone> phones = ((Parser)parser.newInstance()).execute(fileToBeParsed);
 			builder.createPhoneAssets(phones);
 			
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {

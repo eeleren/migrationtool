@@ -142,12 +142,7 @@ public class AccessoryBuilder extends Builder {
 		 
 				logger.info("Asset file: "+filename+extension+" created and saved to: "+output);
 				
-				//images
-				/*PathUtil.createAssetFolder((assetPhone.getPhoneFieldByName(PhoneConstants.PHONE_NAME_RAW_FIELD).getValue()),
-										   (assetPhone.getPhoneFieldByName(PhoneConstants.PICTURES_FIELD).getValue()));*/
-				
-				//zip
-				 
+							 
 			  } catch (ParserConfigurationException pce) {
 				
 				logger.error("ParserConfigurationException :"+pce.getMessage());

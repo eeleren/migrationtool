@@ -31,13 +31,9 @@ public class AccessoryConstants {
 	public static final String OVERRIDE_OOS_FIELD = "overrideOOS";
 	public static final String GROUP_ID_FIELD = "groupId";
 	public static final String DEFAULT_VARIANT_ID_FIELD = "defaultVariantId";	
-	public static final String BAZAAR_VOICE_VAR_ID_FIELD = "bazaarVoiceVariationId";
-	
+	public static final String BAZAAR_VOICE_VAR_ID_FIELD = "bazaarVoiceVariationId";	
 	public static final String VARIANT_PRIORITY_FIELD = "variantPriority";
-	public static final String GROUP_PURCH_LIMIT_FIELD = "groupPurchaseLimit";	
-	
-	
-	
+	public static final String GROUP_PURCH_LIMIT_FIELD = "groupPurchaseLimit";		
 	
 	//asset default values for mandatory fields
 	public static final String ASSET_VALUE = "asset";
