@@ -1,5 +1,6 @@
 package com.ericsson.pc.migrationtool;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.ericsson.pc.migrationtool.bean.Feature;
 import com.ericsson.pc.migrationtool.bean.Group;
 import com.ericsson.pc.migrationtool.bean.Group.Spec;
 import com.ericsson.pc.migrationtool.bean.Item;
+import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.Phone;
 import com.ericsson.pc.migrationtool.bean.SpecialFeature;
 import com.ericsson.pc.migrationtool.bean.Variation;
@@ -37,28 +39,31 @@ public class PhoneParser implements Parser {
 	public Parser getNewInstance() {
 		return new PhoneParser();
 	}
-	public List<Phone> execute(String filePath) {
+	public List<Model> execute(String filePath) throws FileNotFoundException {
 		if (filePath == null) {
 			return execute();
 		} else {
 			logger.info("SINGLE PARSER EXECUTION STARTED...");
 			String phoneFilePath = PathUtil.getSinglePhoneFilePath(filePath);
-			logger.debug(phoneFilePath + "found");
 			
-			List<String> phonePathList = new ArrayList<String>();
-			phonePathList.add(phoneFilePath);
-			return parse(phonePathList);
+			if ((phoneFilePath!=null)&&(!phoneFilePath.equals(""))) {
+				List<String> phonePathList = new ArrayList<String>();
+				phonePathList.add(phoneFilePath);
+				return parse(phonePathList);
+			} else 
+				throw new FileNotFoundException();
+			
 		}
 	}
 	
-	public List<Phone> execute() {
+	public List<Model> execute() {
 		logger.info("PARSER EXECUTION STARTED...");
 		List<String> phonePathList = PathUtil.getPhonesFilesPath();	
 		return parse(phonePathList);
 	}
 	
-	public List<Phone> parse(List<String> phonePathList) {
-		List<Phone> phoneList = new ArrayList<Phone>();
+	public List<Model> parse(List<String> phonePathList) {
+		List phoneList = new ArrayList<Phone>();
 		
 		for (String phoneFilePath : phonePathList) {
 			phoneList.add(getPhone(phoneFilePath));

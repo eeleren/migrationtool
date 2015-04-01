@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.ericsson.pc.migrationtool.builder.AccessoryConstants;
+import com.ericsson.pc.migrationtool.builder.accessory.AccessoryConstants;
 
 
 public class AccessoryAssetStructure {

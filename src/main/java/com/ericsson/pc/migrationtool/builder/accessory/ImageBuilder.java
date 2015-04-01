@@ -1,4 +1,4 @@
-package com.ericsson.pc.migrationtool.builder;
+package com.ericsson.pc.migrationtool.builder.accessory;
 
 import java.io.File;
 import java.io.FileNotFoundException;

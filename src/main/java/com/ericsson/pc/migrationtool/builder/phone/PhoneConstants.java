@@ -1,4 +1,4 @@
-package com.ericsson.pc.migrationtool.builder;
+package com.ericsson.pc.migrationtool.builder.phone;
 
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 

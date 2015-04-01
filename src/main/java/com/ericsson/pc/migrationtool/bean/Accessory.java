@@ -1,6 +1,6 @@
 package com.ericsson.pc.migrationtool.bean;
 
-public class Accessory {
+public class Accessory extends Model {
 	private String id;
 	private String category;
 	private String description;

@@ -1,9 +1,10 @@
-package com.ericsson.pc.migrationtool.builder;
+package com.ericsson.pc.migrationtool.builder.phone;
 
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,10 +27,10 @@ import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 
 
 
-public class PhoneVariantBuilder {
+public class VariantBuilder {
 	
-	final static Logger logger = Logger.getLogger(PhoneVariantBuilder.class);
-	final static String separator = "//";
+	final static Logger logger = Logger.getLogger(VariantBuilder.class);
+	final static String separator = File.separator;
 	final String outputDir = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.outputdir");
 	final String extension = PhoneConstants.FILE_EXTENSION;	
 	

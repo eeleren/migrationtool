@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import com.ericsson.pc.migrationtool.builder.PhoneConstants;
+
+import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 
 
 public class PhoneAssetStructure {

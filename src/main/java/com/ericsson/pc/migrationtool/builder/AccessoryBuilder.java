@@ -16,9 +16,13 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import com.ericsson.pc.migrationtool.bean.Accessory;
+import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.msdp.AccessoryAssetStructure;
 import com.ericsson.pc.migrationtool.bean.msdp.AccessoryField;
+import com.ericsson.pc.migrationtool.builder.accessory.AccessoryConstants;
+import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 import com.ericsson.pc.migrationtool.util.PathUtil;
 
 
@@ -154,6 +158,17 @@ public class AccessoryBuilder extends Builder {
 				  logger.error(e.getMessage());
 				  e.printStackTrace();
 			  }
+	}
+
+	@Override
+	public Builder getNewInstance() {		
+		return new AccessoryBuilder();
+	}
+
+	@Override
+	public void createAssets(List<Model> models) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

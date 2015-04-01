@@ -3,8 +3,11 @@ package com.ericsson.pc.migrationtool.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import com.ericsson.pc.migrationtool.bean.Phone;
+
 
 public class PathUtil {
 

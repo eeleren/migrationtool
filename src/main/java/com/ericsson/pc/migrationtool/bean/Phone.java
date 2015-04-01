@@ -3,7 +3,7 @@ package com.ericsson.pc.migrationtool.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Phone {
+public class Phone extends Model {
 	
 	//FROM CATALOGUE.XML
 	private String id;

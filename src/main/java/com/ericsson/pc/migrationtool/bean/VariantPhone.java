@@ -1,10 +1,7 @@
 package com.ericsson.pc.migrationtool.bean;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class PhoneAsset extends Phone {	
+public class VariantPhone extends Phone {	
 	
 	//FROM VARIANTS
 	private String colorVariant;
@@ -13,7 +10,7 @@ public class PhoneAsset extends Phone {
 	private String memoryVariant;
 	
 
-	public PhoneAsset(Phone p) {
+	public VariantPhone(Phone p) {
 		super(p);
 	}
 	
