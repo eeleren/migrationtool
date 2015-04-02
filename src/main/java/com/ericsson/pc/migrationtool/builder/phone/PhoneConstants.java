@@ -30,19 +30,14 @@ public class PhoneConstants {
 	public static final String AVAILABLE_4_PREORDER_FIELD = "available4preorder";
 	public static final String GENERAL_AV_DATE_FIELD = "generalAvailabilityDate";
 	public static final String OVERRIDE_OOS_FIELD = "overrideOOS";
-	public static final String PHONE_ID_FIELD = "phoneId";
 	public static final String GROUP_ID_FIELD = "groupId";
-	public static final String DEFAULT_VARIANT_ID_FIELD = "defaultVariantId";	
-	public static final String BAZAAR_VOICE_VAR_ID_FIELD = "bazaarVoiceVariationId";
-	public static final String VARIANT_PRIORITY_FIELD = "variantPriority";
+	public static final String BAZAAR_VOICE_VAR_ID_FIELD = "bazaarVoiceVariationId";	
 	public static final String GROUP_PURCH_LIMIT_FIELD = "groupPurchaseLimit";	
 	public static final String IS_REDVENTURES_FIELD = "isRedVentures";	
-	public static final String IMPORT_PATH_FIELD = "importPath";	
 	public static final String GENIE_ORDER_FIELD = "genieOrder";	
 	public static final String IS_NEW_FIELD = "isNew";	
 	public static final String IS_PREOWNED_FIELD = "isPreOwned";
 	public static final String IS_HIDDEN_FIELD = "isHidden";
-	public static final String DATE_LAUNCH_FIELD = "dateLaunch";
 	public static final String IS_EOL_FIELD = "isEOL";
 	public static final String SHORT_DESC_FIELD = "shortDescription";
 	public static final String EXT_DESC_FIELD = "extendedDescription";
@@ -115,7 +110,23 @@ public class PhoneConstants {
 	public static final String TECH_SPEC_GROUP_COUNT_FIELD = "techSpecsGroupCount";
 	public static final String TECH_SPEC_VARIANT_FIELD = "techSpecs";
 	public static final String PICTURES_FIELD = "pictures";
-	
+	public static final String AVAILABLE_4_BACKORDER_FIELD = "available4backorder";
+	public static final String EXTERNAL_URL = "externalUrl";
+	public static final String SKU = "sku";
+	public static final String PHONE_GENIE_FIELD = "phoneGenie";
+	public static final String PHONE_TYPE = "phoneType";
+	public static final String SPEC_HEIGHT_FIELD = "specificationsHeight";
+	public static final String SPEC_WIDTH_FIELD = "specificationsWidth";
+	public static final String SPEC_DEPTH_FIELD = "specificationsDepth";
+	public static final String SPEC_WEIGHT_FIELD = "specificationsWeight";
+	public static final String SPEC_SCREENSIZE_FIELD = "specificationsScreenSize" ;
+	public static final String SPEC_BATTERYTYPE_FIELD = "specificationsBatteryType";
+	public static final String SPEC_TALKINGTIME_FIELD = "specificationsTalkingTime";	
+	public static final String SPEC_REMOVEABLE_FIELD = "specificationsRemoveable";
+	public static final String SPEC_MEMORY_FIELD = "specificationsMemory";
+	public static final String SPEC_PROCESSOR_FIELD = "specificationsProcessor";
+	public static final String SPEC_OS_FIELD = "specificationsOS";
+	public static final String VARIANT_LIST_ORDER_FIELD = "variantListOrder";
 	
 	//asset default values for mandatory fields
 	public static final String ASSET_VALUE = "asset";
@@ -136,6 +147,39 @@ public class PhoneConstants {
 	public static final String MANUFACT_RAW_VALUE = "phoneName";
 	public static final String EXTRA_FEAT_COUNT_VALUE = "0";
 	public static final String SPEC_FEAT_COUNT = "0";
+	public static final String EXTERNAL_URL_VALUE = "external-url";
+	public static final String SKU_VALUE = "sku";
+	public static final String PHONE_GENIE_VALUE = "false";
+	public static final String EXT_DESC_VALUE = "description";
+	public static final String SPEC_HEIGHT_VALUE = "height";
+	public static final String SPEC_WIDTH_VALUE = "width";
+	public static final String SPEC_WEIGHT_VALUE = "weight";
+	public static final String SPEC_DEPTH_VALUE = "depth";
+	public static final String SPEC_SCREENSIZE_VALUE = "screensize";
+	public static final String SPEC_BATTERYTYPE_VALUE = "batterytype";
+	public static final String SPEC_TALKINGTIME_VALUE = "talkingtime";
+	public static final String SPEC_REMOVEABLE_VALUE = "removeable";
+	public static final String SPEC_MEMORY_VALUE = "memory";
+	public static final String SPEC_PROCESSOR_VALUE = "processor";
+	public static final String SPEC_OS_VALUE = "os";
+	
+	//BRAND ID VALUES
+	public static final String BRAND_ID_BOOST = "boost";
+	public static final String BRAND_ID_SPP = "spp";
+	public static final String BRAND_ID_VMU = "vmu";
+	
+	//PHONE TYPE VALUES
+	public static final String PHONE_TYPE_ANDROID = "Android";
+	public static final String PHONE_TYPE_IPHONE = "iPhone";
+	public static final String PHONE_TYPE_WINDOWS = "Windows";
+	public static final String PHONE_TYPE_BASIC = "Basic";
+	public static final String PHONE_TYPE_BLACKBERRY = "Blackberry";
+
+	
+	
+	
+	
+	
 
 	
 	

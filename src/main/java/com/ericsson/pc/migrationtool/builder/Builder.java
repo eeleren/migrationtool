@@ -37,8 +37,8 @@ public abstract class Builder {
 		this.normalizeAssetName();		
 	}	
 	
-	public void setAssetName(String assetBrand, String assetName, String variantColor) {		
-		this.assetName = assetBrand + "_" + assetName + "_" + variantColor;
+	public void setAssetName(String assetBrand, String assetName, String variantColor, String variantMemory) {		
+		this.assetName = assetBrand + "_" + assetName + "_" + variantColor + "_" + variantMemory ;
 		this.normalizeAssetName();		
 	}
 	

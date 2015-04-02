@@ -1,5 +1,6 @@
 package com.ericsson.pc.migrationtool;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -26,6 +28,7 @@ import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.Phone;
 import com.ericsson.pc.migrationtool.bean.SpecialFeature;
 import com.ericsson.pc.migrationtool.bean.Variation;
+import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.LogUtil;
@@ -35,6 +38,7 @@ import com.ericsson.pc.migrationtool.util.XPathUtil;
 public class PhoneParser implements Parser {
 	
 	final static Logger logger = Logger.getLogger(PhoneParser.class);
+	final static String brandId = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.brandId");	
 	
 	public Parser getNewInstance() {
 		return new PhoneParser();
@@ -117,7 +121,7 @@ public class PhoneParser implements Parser {
 			List<Phone> temp = new ArrayList<Phone>(phoneList);
 			
 			for (Phone phone : temp) {
-				String id = phone.getId();
+				String id = phone.getSku();
 				if (id.equalsIgnoreCase("") || id == null) {
 					phoneList.remove(phone);
 				}
@@ -137,7 +141,7 @@ public class PhoneParser implements Parser {
 	        Document doc = builder.parse(PathUtil.getCataloguePath());
 	        
 	        for (Phone phone : phoneList) {
-	        	String phoneId = phone.getId();
+	        	String phoneId = phone.getSku();
 	        	
 	        	//SMART SOLUTION
         		Node phoneNode = XPathUtil.getValueAsNodes(doc, xpath, "/payload/products/phones/phone[@id='" + phoneId + "']").item(0);
@@ -197,7 +201,7 @@ public class PhoneParser implements Parser {
 	        Document doc = builder.parse(phoneFilePath);
 	        logger.debug("Parsing ..."+phoneFilePath);
 	        phone.setIsPreowned(phoneFilePath.contains("preowned")+"");
-	        phone.setId(XPathUtil.getValueAsString(doc, xpath, "/page/product/@id"));
+	        phone.setSku(XPathUtil.getValueAsString(doc, xpath, "/page/product/@id"));
 	    	phone.setIsNew(XPathUtil.getValueAsString(doc, xpath, "/page/product/options/@new"));
 	    	phone.setDateLaunch(XPathUtil.getValueAsString(doc, xpath, "/page/product/attributes/@date-launch"));
 	    	phone.setEol(XPathUtil.getValueAsString(doc, xpath, "/page/product/options/@eol"));
@@ -377,6 +381,13 @@ public class PhoneParser implements Parser {
 				
 				groupList.add(group);
 			}
+			//External Url: set to manufacturerNameRaw-phoneNameRaw for BOOST (i.e.:moto-e-lte), SKU for SPP and VMU
+			if (brandId.equalsIgnoreCase(PhoneConstants.BRAND_ID_BOOST)) {
+				phone.setExternalUrl(FilenameUtils.removeExtension(new File(phoneFilePath).getName()));
+			} else {
+				phone.setExternalUrl(phone.getSku());
+			}
+			
 	        
 			
         } catch (ParserConfigurationException | SAXException | IOException e) {

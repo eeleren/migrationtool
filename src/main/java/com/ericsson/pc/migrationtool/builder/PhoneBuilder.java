@@ -17,6 +17,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -41,13 +42,19 @@ import com.ericsson.pc.migrationtool.util.PathUtil;
 
 public class PhoneBuilder extends Builder {
 	
-	final static String buildAccessories = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.buildAccessories");	
+	final static String buildAccessories = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.buildAccessories");
+	final static String brandId = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.brandId");	
+	
 	final String featureExtension = PhoneConstants.FEATURES_EXTENSION;
 	final String specFeatureExtension = PhoneConstants.SPEC_FEATURES_EXTENSION;
 	final String techSpecExtension = PhoneConstants.TECHSPEC_EXTENSION;
 	
-	private VariantPhone variantPhone; 	
 
+	@Override
+	public Builder getNewInstance() {
+		return new PhoneBuilder();
+	}	
+	
 	public void createAssets(List<Model> models) {
 		
 		PhoneBuilder builder = new PhoneBuilder();	
@@ -66,15 +73,15 @@ public class PhoneBuilder extends Builder {
 		
 		for (Phone p: phones) {			
 			if (p.hasVariations()) {
-				logger.debug("["+ p.getId()+ "] Phone Asset: "+p.getManufacturerRaw()+ " "+p.getPhoneNameRaw()+" building start" );
+				logger.debug("["+ p.getSku()+ "] Phone Asset: "+p.getManufacturerRaw()+ " "+p.getPhoneNameRaw()+" building start" );
 				logger.debug("Phone has variation..");
 				builder.createPhoneVariations(p);
 				
 			} else {		
-				logger.debug("["+ p.getId()+ "] Phone Asset: "+p.getManufacturerRaw()+ " "+p.getPhoneNameRaw()+" building start" );
+				logger.debug("["+ p.getSku()+ "] Phone Asset: "+p.getManufacturerRaw()+ " "+p.getPhoneNameRaw()+" building start" );
 				logger.debug("Phone has not variation..");
 				builder.setAssetName(p.getManufacturerRaw(), p.getPhoneNameRaw());
-				builder.createPhoneAsset(p);
+				builder.createPhoneAsset(new VariantPhone(p));
 			} 
 		}
 		
@@ -83,44 +90,48 @@ public class PhoneBuilder extends Builder {
 	}
 	
 	public void createPhoneVariations(Phone phone) {
-		variantPhone = new VariantPhone(phone);
+		VariantPhone variantPhone = new VariantPhone(phone);
 		List<Variation> variationList = phone.getVariations();
 		
 		for (Variation v : variationList) {
-			variantPhone.setId(v.getId());
+			variantPhone.setSku(v.getId());
 			variantPhone.setOosThresholdOverride(v.getOosThresholdOverride());
 			variantPhone.setMap(v.getMap());
 			variantPhone.setColorVariant(v.getColorVariant());
 			variantPhone.setGradientColor(v.getGradientColor());
 			variantPhone.setMemoryVariant(v.getMemoryVariant());
 			
-			setAssetName(variantPhone.getManufacturerRaw(), variantPhone.getPhoneNameRaw(), variantPhone.getColorVariant());
+			setAssetName(variantPhone.getManufacturerRaw(), variantPhone.getPhoneNameRaw(), variantPhone.getColorVariant(), variantPhone.getMemoryVariant());
 			setAssetOutputDir(getAssetName());
 			createPhoneAsset(variantPhone);		
 	}		
 	}
 	
+	public void createPhoneAsset(VariantPhone phone) {
+		PhoneAssetStructure asset = buildAssetStructure(phone);
+		createXml(asset);
+	}
+	
 	/**
 	 * Translates a phone data coming from boost into msdp phone assets structure
 	 * */
-	public PhoneAssetStructure buildAssetStructure(Phone phone) {
-			VariantPhone p = new VariantPhone(phone);
-			//VariantPhone p = (VariantPhone) phone;		
+	public PhoneAssetStructure buildAssetStructure(VariantPhone p) {
 			PhoneAssetStructure asset = new PhoneAssetStructure();
 			asset.init();				
 			logger.debug("preowned: "+p.isPreowned());
 			//setting asset fields with boost values
 		
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.MIN_ADV_PRICE_FIELD, p.getMap());		
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.OVERRIDE_OOS_FIELD, p.getOosThresholdOverride());			
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.PHONE_ID_FIELD, p.getId());	
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.GROUP_ID_FIELD, p.getDefaultId());	
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.DEFAULT_VARIANT_ID_FIELD, p.getDefaultId());				
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.OVERRIDE_OOS_FIELD, p.getOosThresholdOverride());	
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.GENERAL_AV_DATE_FIELD, p.getDateLaunch());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.EXTERNAL_URL, p.getExternalUrl());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SKU, p.getSku());			
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.GROUP_ID_FIELD, p.getDefault_id());	
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.VARIANT_LIST_ORDER_FIELD, getVariantlistOrder(p.getVariations()));			
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_REDVENTURES_FIELD, p.getRedVentures());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.GENIE_ORDER_FIELD, p.getGenieOrder());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_NEW_FIELD, p.getIsNew());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PREOWNED_FIELD, p.isPreowned());			
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.DATE_LAUNCH_FIELD, p.getDateLaunch());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PREOWNED_FIELD, p.isPreowned());		
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_EOL_FIELD, p.getEol());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.SHORT_DESC_FIELD, p.getShortDescription());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.EXT_DESC_FIELD, p.getExtendedDescription());
@@ -136,6 +147,8 @@ public class PhoneBuilder extends Builder {
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.COLOR_ID_FIELD, p.getColorId());	
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.GRADIENT_COLOR_FIELD, p.getGradientColor());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.MEMORY_VARIANT_FIELD, p.getMemoryVariant());
+			
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.PHONE_TYPE, getPhoneType(p));
 			
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.FEATURE_BAR_FIELD, p.getFeatureBar());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.FEATURE_SLIDER_FIELD, p.getFeatureSlider());
@@ -190,6 +203,19 @@ public class PhoneBuilder extends Builder {
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.FEATURES_FIELD, p.getFeatureList());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD, p.getSpecialFeatureList().size()+"");
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEATURES_FIELD, p.getSpecialFeatureList());
+			
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_HEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(0).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD, p.getGroupList().get(1).getListSpec().get(2).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD, p.getGroupList().get(1).getListSpec().get(1).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(3).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_SCREENSIZE_FIELD, p.getGroupList().get(1).getListSpec().get(4).getValue());
+			
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_BATTERYTYPE_FIELD, p.getGroupList().get(2).getListSpec().get(0).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD, p.getGroupList().get(1).getListSpec().get(2).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD, p.getGroupList().get(1).getListSpec().get(1).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(3).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_SCREENSIZE_FIELD, p.getGroupList().get(1).getListSpec().get(4).getValue());
+			
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size()+"");
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList());
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_FIELD, p.getGalleryImages());	
@@ -201,13 +227,6 @@ public class PhoneBuilder extends Builder {
 	
 		return asset;
 	}
-	
-	public void createPhoneAsset(Phone phone) {
-		PhoneAssetStructure asset = buildAssetStructure(phone);
-		createXml(asset);
-	}
-	
-	
 	/**
 	 * Verify that the images linked in the boost phone.xml file have a reference in the image folder
 	 * 
@@ -265,7 +284,7 @@ public class PhoneBuilder extends Builder {
 				
 				
 				Element rootElement = doc.createElement(PhoneConstants.PHONE_FIELD);
-				String externalId = (String) assetPhone.getPhoneFieldByName(PhoneConstants.PHONE_ID_FIELD).getValue();
+				String externalId = brandId + "_" + (String) assetPhone.getPhoneFieldByName(PhoneConstants.SKU).getValue();
 				rootElement.setAttribute(PhoneConstants.EXTERNAL_ID, externalId);
 				asset.appendChild(rootElement);
 				
@@ -291,7 +310,7 @@ public class PhoneBuilder extends Builder {
 						variantBuilder.setFeatureFile(outputDir+assetName+File.separator+assetName+featureExtension);
 						variantBuilder.createPhoneFeatures((List<Feature>) f.getValue());
 						
-						Element e = doc.createElement(f.getName());//elemento features
+						Element e = doc.createElement(f.getName());//features element
 						Element variant = doc.createElement("variant");
 						Element item = doc.createElement("item");
 						item.setAttribute("uri", variantBuilder.getFeaturesName());
@@ -411,18 +430,48 @@ public class PhoneBuilder extends Builder {
 	public static String getAccessories(List<Accessory> accessories) {
 		
 		String accessoriesValues = "";
-		String separator = ";";
+		String separator = ",";
 		
 		for (int i = 0; i< accessories.size(); i++) {
 			accessoriesValues=accessoriesValues + accessories.get(i).getId() + separator;						
-		}				
-		return accessoriesValues;					
-	}
-
-	@Override
-	public Builder getNewInstance() {
-		return new PhoneBuilder();
+		}	
+		if(!accessoriesValues.equals("")) {
+			accessoriesValues = accessoriesValues.substring(0, accessoriesValues.length() - 1);
+		}
+		return 	accessoriesValues;				
 	}
 	
+	public static String getVariantlistOrder(List<Variation> variations) {
+		
+		String variationValues = "";
+		String separator = ",";
+		
+		for (int i = 0; i< variations.size(); i++) {
+			variationValues = variationValues + variations.get(i).getId() + separator;						
+		}	
+		if (!variationValues.equals("")) {
+			variationValues = variationValues.substring(0, variationValues.length() - 1);
+		}
+		return variationValues;				
+	}
+	
+	public String getPhoneType(VariantPhone p) {
+		String phoneType = "";
+		List<Group> groupList = p.getGroupList();
+		String os = groupList.get(0).getValue();
+		if (StringUtils.containsIgnoreCase(os, "ios")) {
+			phoneType = PhoneConstants.PHONE_TYPE_IPHONE;
+		} else if (StringUtils.containsIgnoreCase(os, "android")) {
+			phoneType = PhoneConstants.PHONE_TYPE_ANDROID;
+		} else if (StringUtils.containsIgnoreCase(os, "windows")) {
+			phoneType = PhoneConstants.PHONE_TYPE_WINDOWS;
+		} else if (StringUtils.containsIgnoreCase(os, "blackberry")) {
+			phoneType = PhoneConstants.PHONE_TYPE_BLACKBERRY;
+		} else {
+			phoneType = PhoneConstants.PHONE_TYPE_BASIC;
+		}
+		return phoneType;
+	}
+
 
 }

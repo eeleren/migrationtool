@@ -22,8 +22,9 @@ public class LogUtil {
 	public static void logPhones(List<Phone> phoneList) {
 		logger.info("Parsed the following phones (enable debug log level for verbose logging):");
 		for (Phone phone : phoneList) {
-			String idBracket = "[" + phone.getId() + "] ";
-			logger.info(PARSER + " " + idBracket + "ID: " + phone.getId());
+			String idBracket = "[" + phone.getSku() + "] ";
+			logger.info(PARSER + " " + idBracket + "SKU: " + phone.getSku());
+			logger.info(PARSER + " " + idBracket + "ExternalUrl: " + phone.getExternalUrl());
 			logger.info(PARSER + " " +idBracket + "Name: " + phone.getPhoneName());
 			logger.info(PARSER + " " +idBracket + "Brand: " + phone.getManufacturerName());
 			

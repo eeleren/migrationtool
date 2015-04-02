@@ -1,13 +1,10 @@
 package com.ericsson.pc.migrationtool;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.ericsson.pc.migrationtool.bean.Phone;
 import com.ericsson.pc.migrationtool.builder.Builder;
-import com.ericsson.pc.migrationtool.builder.PhoneBuilder;
 import com.ericsson.pc.migrationtool.interfaces.Parser;
 
 

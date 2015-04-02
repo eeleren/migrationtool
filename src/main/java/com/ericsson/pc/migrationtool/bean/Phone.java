@@ -6,7 +6,6 @@ import java.util.List;
 public class Phone extends Model {
 	
 	//FROM CATALOGUE.XML
-	private String id;
 	private String path;
 	private String map;
 	private String redVentures;
@@ -78,8 +77,9 @@ public class Phone extends Model {
 	private String compareItemVisualVoicemail;
 	private String compareItem3G;
 	private String compareItemBluetooth;
-	private String preowned;
-
+	private String preowned;	
+	private String sku;
+	private String externalUrl;
 
 	private List<Feature> featureList = new ArrayList<Feature>();
 	private List<SpecialFeature> specialFeatureList = new ArrayList<SpecialFeature>();
@@ -89,7 +89,6 @@ public class Phone extends Model {
 	//FROM VARIANTS
 	
 	public Phone(Phone p) {	
-		setId(p.getId());
 		setPath(p.getPath());
 		setMap(p.getMap());
 		setRedVentures(p.getRedVentures());
@@ -163,6 +162,9 @@ public class Phone extends Model {
 		setSpecialFeatureList(p.getSpecialFeatureList());
 		setGroupList(p.getGroupList());
 		setIsPreowned(p.isPreowned());
+		setGalleryImages(p.getGalleryImages());
+		setExternalUrl(p.getExternalUrl());
+		setSku(p.getSku());
 		
 	};
 	
@@ -181,12 +183,6 @@ public class Phone extends Model {
 	}
 	public void setDefault_id(String defaultId) {
 		this.defaultId = defaultId;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
 	}
 	public String getPath() {
 		return path;
@@ -645,5 +641,21 @@ public class Phone extends Model {
 	}
 	public String isPreowned() {
 		return preowned;
+	}
+	
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
 	}
 }
