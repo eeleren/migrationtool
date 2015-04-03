@@ -3,6 +3,8 @@ package com.ericsson.pc.migrationtool.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ericsson.pc.migrationtool.bean.Group.Spec;
+
 public class Phone extends Model {
 	
 	//FROM CATALOGUE.XML
@@ -657,5 +659,32 @@ public class Phone extends Model {
 
 	public void setExternalUrl(String externalUrl) {
 		this.externalUrl = externalUrl;
+	}
+	
+	public String getGroupValueById(String id) {
+		
+		List<Group> groups = this.getGroupList();
+		for (Group g: groups) {
+			if(g.getId().equalsIgnoreCase(id)) {
+				return g.getValue();
+		}
+	}
+		return null;
+	}
+	public String getSpecByGroupIdAndSpecType(String id, String type) {
+		
+		List<Group> groups = this.getGroupList();
+		List<Spec> specs = new ArrayList<Spec>();
+ 		for (Group g: groups) {
+			if(g.getId().equalsIgnoreCase(id)) {
+				specs =  g.getListSpec();
+				for (Spec s: specs) {
+					if(s.getType().equalsIgnoreCase(type)) {
+						return s.getValue();
+					}
+				}
+		}
+	}
+		return null;
 	}
 }

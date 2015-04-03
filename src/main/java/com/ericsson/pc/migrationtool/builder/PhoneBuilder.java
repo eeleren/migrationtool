@@ -204,17 +204,19 @@ public class PhoneBuilder extends Builder {
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD, p.getSpecialFeatureList().size()+"");
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEATURES_FIELD, p.getSpecialFeatureList());
 			
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_HEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(0).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD, p.getGroupList().get(1).getListSpec().get(2).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD, p.getGroupList().get(1).getListSpec().get(1).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(3).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_SCREENSIZE_FIELD, p.getGroupList().get(1).getListSpec().get(4).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_HEIGHT_FIELD, p.getSpecByGroupIdAndSpecType("dimensions", "height"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD, p.getSpecByGroupIdAndSpecType("dimensions", "width"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD, p.getSpecByGroupIdAndSpecType("dimensions", "depth"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD, p.getSpecByGroupIdAndSpecType("dimensions", "weight"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_SCREENSIZE_FIELD, p.getSpecByGroupIdAndSpecType("dimensions", "screen_size"));
 			
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_BATTERYTYPE_FIELD, p.getGroupList().get(2).getListSpec().get(0).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD, p.getGroupList().get(1).getListSpec().get(2).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD, p.getGroupList().get(1).getListSpec().get(1).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD, p.getGroupList().get(1).getListSpec().get(3).getValue());
-			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_SCREENSIZE_FIELD, p.getGroupList().get(1).getListSpec().get(4).getValue());
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_BATTERYTYPE_FIELD, p.getSpecByGroupIdAndSpecType("battery", "battery_type"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_TALKINGTIME_FIELD, p.getSpecByGroupIdAndSpecType("battery", "talking_time"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_REMOVEABLE_FIELD, p.getSpecByGroupIdAndSpecType("battery", "removable"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_MEMORY_FIELD, p.getSpecByGroupIdAndSpecType("battery", "memory"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_PROCESSOR_FIELD, p.getSpecByGroupIdAndSpecType("battery", "processor"));
+			asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_OS_FIELD, p.getGroupValueById("os"));
+			
 			
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size()+"");
 			asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList());

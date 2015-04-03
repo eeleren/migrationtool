@@ -33,7 +33,9 @@ public class Group {
 		}
 		public void setOrder(String order) {
 			this.order = order;
-		}
+		}	
+		
+		
 	}
 
 	public String getValue() {
@@ -77,5 +79,8 @@ public class Group {
 	}
 	
 	
+	
+	
 
 }
+

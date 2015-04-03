@@ -231,6 +231,8 @@ public class PhoneParser implements Parser {
 		    		variation.setMemoryVariant(n.getAttributes().getNamedItem("memory").getNodeValue());
 		    		
 		    		variation.setGradientColor(XPathUtil.getValueAsString(doc, xpath, "/page/product/variations/options/option[@id='color']/value[@id='" + color + "']/@gradient-color"));
+		    		//String gradientColor = variation.getGradientColor().replaceAll("#", "c");
+		    		//variation.setGradientColor(gradientColor);
 		    		variation.setColorId(XPathUtil.getValueAsString(doc, xpath, "/page/product/variations/options/option[@id='color']/value[@id='" + color + "']/@color"));
 		    		
 		    		phone.getVariations().add(variation);
@@ -352,6 +354,7 @@ public class PhoneParser implements Parser {
 	    	String os = XPathUtil.getValueAsString(doc, xpath, "/page/product/tech-specs/os/text()");
 			Group group = new Group();
 			group.setValue(os);
+			group.setId("os");
 			group.setOrder("0");
 			groupList.add(group);
 			
