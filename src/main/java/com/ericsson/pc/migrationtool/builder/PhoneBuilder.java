@@ -467,8 +467,6 @@ public class PhoneBuilder extends Builder {
 			phoneType = PhoneConstants.PHONE_TYPE_ANDROID;
 		} else if (StringUtils.containsIgnoreCase(os, "windows")) {
 			phoneType = PhoneConstants.PHONE_TYPE_WINDOWS;
-		} else if (StringUtils.containsIgnoreCase(os, "blackberry")) {
-			phoneType = PhoneConstants.PHONE_TYPE_BLACKBERRY;
 		} else {
 			phoneType = PhoneConstants.PHONE_TYPE_BASIC;
 		}

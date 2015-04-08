@@ -329,6 +329,19 @@ public class PhoneParser implements Parser {
 	        		feature.setExtraFeatureIconName(featureIconName);
 	        		feature.setExtraFeatureTitle(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/title/text()"));
 	        		feature.setExtraFeatureDescription(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/description/text()"));
+	        		
+	        		if (feature.getExtraFeatureIconName().equals("")||feature.getExtraFeatureIconName()==null) {
+	        			//feature second structure
+	        			//feature.setExtraFeatureIconName(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/title/text()"));	
+	        			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
+	        			logger.debug(nodeId.getNodeValue());
+	        		}
+	    		} else {
+	    			//feature alternative structure
+	    			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
+	    			if(nodeId!=null) {
+	    				feature.setExtraFeatureIconName(nodeId.getNodeValue());
+	    			}
 	    		}
 	    		
 	    		featureList.add(feature);

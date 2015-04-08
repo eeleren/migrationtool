@@ -164,7 +164,7 @@ public class PhoneConstants {
 	public static final String SPEC_OS_VALUE = "os";
 	
 	//BRAND ID VALUES
-	public static final String BRAND_ID_BOOST = "boost";
+	public static final String BRAND_ID_BOOST = "bst";
 	public static final String BRAND_ID_SPP = "spp";
 	public static final String BRAND_ID_VMU = "vmu";
 	
