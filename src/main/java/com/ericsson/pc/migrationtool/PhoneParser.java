@@ -204,10 +204,13 @@ public class PhoneParser implements Parser {
 	        phone.setSku(XPathUtil.getValueAsString(doc, xpath, "/page/product/@id"));
 	    	phone.setIsNew(XPathUtil.getValueAsString(doc, xpath, "/page/product/options/@new"));
 	    	phone.setDateLaunch(XPathUtil.getValueAsString(doc, xpath, "/page/product/attributes/@date-launch"));
+	    	phone.setGenieOrder(XPathUtil.getValueAsString(doc, xpath, "/page/product/attributes/@genie-order"));
+	    	phone.setSlug(XPathUtil.getValueAsString(doc, xpath, "/page/product/attributes/@slug"));
 	    	phone.setEol(XPathUtil.getValueAsString(doc, xpath, "/page/product/options/@eol"));
 	    	phone.setShortDescription(XPathUtil.getValueAsString(doc, xpath, "/page/product/descriptions/list-description"));
 	    	phone.setExtendedDescription(XPathUtil.getValueAsString(doc, xpath, "/page/product/descriptions/list-extended"));
 	    	phone.setPhoneName(XPathUtil.getValueAsString(doc, xpath, "/page/product/names/name"));
+	    	//phone.setPhoneName(phone.getPhoneName().replaceAll("&","&amp;"));
 	    	phone.setManufacturerName(XPathUtil.getValueAsString(doc, xpath, "/page/product/names/brand"));
 	    	phone.setPhoneNameRaw(XPathUtil.getValueAsString(doc, xpath, "/page/product/names/nameraw"));
 	    	phone.setManufacturerRaw(XPathUtil.getValueAsString(doc, xpath, "/page/product/names/brandraw"));

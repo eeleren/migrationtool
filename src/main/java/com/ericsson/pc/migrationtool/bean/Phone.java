@@ -82,11 +82,17 @@ public class Phone extends Model {
 	private String preowned;	
 	private String sku;
 	private String externalUrl;
+	private String slug;
+
+	public String getSlug() {
+		return slug;
+	}
 
 	private List<Feature> featureList = new ArrayList<Feature>();
 	private List<SpecialFeature> specialFeatureList = new ArrayList<SpecialFeature>();
 	private List<Group> groupList = new ArrayList<Group>();
 	private List<Item> galleryImages = new ArrayList<Item>();
+	
 	
 	//FROM VARIANTS
 	
@@ -167,6 +173,7 @@ public class Phone extends Model {
 		setGalleryImages(p.getGalleryImages());
 		setExternalUrl(p.getExternalUrl());
 		setSku(p.getSku());
+		setSlug(p.getSlug());
 		
 	};
 	
@@ -675,16 +682,24 @@ public class Phone extends Model {
 		
 		List<Group> groups = this.getGroupList();
 		List<Spec> specs = new ArrayList<Spec>();
+		String result = "";
  		for (Group g: groups) {
 			if(g.getId().equalsIgnoreCase(id)) {
 				specs =  g.getListSpec();
 				for (Spec s: specs) {
 					if(s.getType().equalsIgnoreCase(type)) {
-						return s.getValue();
+						result = s.getValue();
 					}
 				}
 		}
 	}
-		return null;
+ 		if ((result==null)||(("").equalsIgnoreCase(result))) {
+ 			result = "Not Available";
+ 		} return result;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+		
 	}
 }

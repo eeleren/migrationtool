@@ -49,6 +49,16 @@ public class PhoneBuilder extends Builder {
 	final String specFeatureExtension = PhoneConstants.SPEC_FEATURES_EXTENSION;
 	final String techSpecExtension = PhoneConstants.TECHSPEC_EXTENSION;
 	
+	private String slug;
+	
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
 
 	@Override
 	public Builder getNewInstance() {
@@ -71,10 +81,11 @@ public class PhoneBuilder extends Builder {
 		
 		logger.info("BUILDING EXECUTION STARTED...");
 		
-		for (Phone p: phones) {			
+		for (Phone p: phones) {
+			builder.setSlug(p.getSlug());
 			if (p.hasVariations()) {
 				logger.debug("["+ p.getSku()+ "] Phone Asset: "+p.getManufacturerRaw()+ " "+p.getPhoneNameRaw()+" building start" );
-				logger.debug("Phone has variation..");
+				logger.debug("Phone has variation..");				
 				builder.createPhoneVariations(p);
 				
 			} else {		
@@ -241,13 +252,15 @@ public class PhoneBuilder extends Builder {
 		List<ImageItem> imageItems= new ArrayList<ImageItem>();
 		String imageDir = "";
 		
-		try {
-			
-			imageDir = ImageBuilder.getImageFolder(phoneNameRaw, brandNameRaw);
-		
-		} catch (FileNotFoundException e) {
-			logger.error("Image directory not found for "+phoneNameRaw+" images will not be loaded");
-			return null;
+		imageDir = ImageBuilder.getImageFolder(phoneNameRaw, brandNameRaw);
+			if (imageDir==null) {
+				logger.error("Image directory not found for "+phoneNameRaw+"...trying with slug");
+				if (getImagesFromSlug()!=null) {
+					imageDir = getImagesFromSlug();					
+				} else {
+					logger.error("Image directory not found for "+phoneNameRaw+" images will not be loaded");
+					return null;
+				}
 		}		
 		
 		logger.debug("image root directory set to: "+imageDir);
@@ -255,6 +268,12 @@ public class PhoneBuilder extends Builder {
 		imageItems = imageBuilder.getContainedImages(items, imageDir);	
 		return imageItems;
 		}	
+	
+	public String getImagesFromSlug() {
+		String slug = this.getSlug();
+		String imageDir = ImageBuilder.getIMAGE_FILE_PATH()+File.separator+slug;
+		return imageDir;
+	}
 	
 
 	
@@ -365,7 +384,7 @@ public class PhoneBuilder extends Builder {
 						//images set in the phone.xml boost
 					    ArrayList<Item> items = (ArrayList<Item>) f.getValue();
 					    ArrayList<ImageItem> images = (ArrayList<ImageItem>) scanAssetImages(assetPhone, items, imageBuilder);
-					    if (!images.isEmpty()) {
+					    if ((images!=null)&&(!images.isEmpty())) {
 							Element e = doc.createElement(f.getName());//elemento pictures
 							for (ImageItem i: images) {
 								Element variant = doc.createElement("variant");

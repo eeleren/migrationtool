@@ -18,15 +18,19 @@ import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 public class ImageBuilder {
 	
 	public ImageItem imageItem = new ImageItem();
-	
-
 
 	final static Logger logger = Logger.getLogger(ImageBuilder.class);
 	
-	
 	private static String IMAGE_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.imagePath");
 	
-	
+	public static String getIMAGE_FILE_PATH() {
+		return IMAGE_FILE_PATH;
+	}
+
+	public static void setIMAGE_FILE_PATH(String iMAGE_FILE_PATH) {
+		IMAGE_FILE_PATH = iMAGE_FILE_PATH;
+	}
+
 	public static List<String> getImagesFilesPath() {
 		List<String> imagesFilePath = new ArrayList<String>();
 		
@@ -47,7 +51,7 @@ public class ImageBuilder {
 		return (dirName.contains(phoneName)&&(dirName.contains(brandName)));
 	}
 	
-	public static String getImageFolder(String phoneName, String brandName) throws FileNotFoundException {
+	public static String getImageFolder(String phoneName, String brandName)  {
 		List<String> imagesFilePath = new ArrayList<String>();
 		
 		String result = "";
@@ -66,18 +70,13 @@ public class ImageBuilder {
 			
 		}catch (FileNotFoundException e) {
 			logger.error(e,e);		
-			throw new FileNotFoundException();
+			return null;
 			
 		}
 		return result;
 	}
-	
-	private static String adaptName(String phoneName) {
-		if(phoneName.contains("iii")) {
-			phoneName.replaceAll("iii","3");
-		}
-		return phoneName;
-	}
+		
+
 
 	public static String getImageName(String uri) {
 		return uri.substring(uri.lastIndexOf("\\")+1, uri.length());
@@ -95,7 +94,8 @@ public class ImageBuilder {
 		File[] imagesFile = root.listFiles();
 		
 		for (File f : imagesFile) {
-			if(f.isDirectory()) {
+			if(f.isDirectory() && !(f.getName().equalsIgnoreCase("thumb"))) {
+				logger.debug("Directory found: "+f.getName());
 				return containsImage(item, f.getPath());
 			} else if(FilenameUtils.removeExtension(f.getName()).equalsIgnoreCase(item.getView())) {
 				this.getImageItem().setName(f.getName());

@@ -17,6 +17,7 @@ public class PathUtil {
 	private static String PHONES_DIR_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.dir.phones");
 	private static String ACCESSORY_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.accessory");
 	private static String OUTPUT_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.outputdir");
+	private static String PHONE_MANUAL_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.phonemanual");
 	private static String PHONE_FILE_EXTENSION = ".xml";
 
 	public static String getCataloguePath() {
@@ -25,6 +26,10 @@ public class PathUtil {
 
 	public static String getPhonesPath() {
 		return PHONES_DIR_PATH;
+	}
+	
+	public static String getPhoneManualFilePath() {
+		return PHONE_MANUAL_FILE_PATH;
 	}
 
 	public static List<String> getPhonesFilesPath() {
@@ -84,4 +89,6 @@ public class PathUtil {
 			logger.info("Output directory deleted and created again");
 		}
 	}
+
+
 }
