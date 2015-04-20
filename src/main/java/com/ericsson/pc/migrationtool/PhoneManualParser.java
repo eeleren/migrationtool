@@ -21,6 +21,7 @@ import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.PhoneManual;
 import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
+import com.ericsson.pc.migrationtool.util.LogUtil;
 import com.ericsson.pc.migrationtool.util.PathUtil;
 import com.ericsson.pc.migrationtool.util.XPathUtil;
 
@@ -62,10 +63,7 @@ public class PhoneManualParser implements Parser {
     			Node model = modelNodes.item(i);
     			NodeList modelChildNodes = model.getChildNodes();
     			for (int j = 0; j < modelChildNodes.getLength(); j++) {    				
-    				Node n= modelChildNodes.item(j);
-    				
-    				logger.debug("Node name: "+n.getNodeName());
-    				logger.debug("Node value: "+n.getTextContent());
+    				Node n= modelChildNodes.item(j);   				
     				if (n.getNodeName().equalsIgnoreCase("brightpointcode")) {
     					m.setId(n.getTextContent());
     				}
@@ -92,6 +90,7 @@ public class PhoneManualParser implements Parser {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			logger.error(e, e);
         }
+		LogUtil.logManuals(manuals);
 		return manuals;
 	}
 	

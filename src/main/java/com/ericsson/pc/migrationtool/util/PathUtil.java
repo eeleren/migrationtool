@@ -89,6 +89,27 @@ public class PathUtil {
 			logger.info("Output directory deleted and created again");
 		}
 	}
+	
+	public static void cleanAssetDirectory() {
+		logger.debug("Cleaning assets directories ...: ");
+		File output = new File(OUTPUT_FILE_PATH);
+		
+		File[] assetsDir = output.listFiles();
+		for (File f : assetsDir) {
+			if(f.isDirectory()) {
+			
+				File[] assetContents = f.listFiles();
+				for (File content: assetContents) {
+					if((content.isDirectory())&&(content.getName().equalsIgnoreCase("thumb"))) {
+						content.deleteOnExit();
+					}
+				}
+		}
+	
+			
+		}
+		logger.info("Assets directories cleanup completed");
+	}
 
 
 }

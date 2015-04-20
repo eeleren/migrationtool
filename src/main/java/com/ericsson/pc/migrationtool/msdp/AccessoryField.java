@@ -1,7 +1,7 @@
-package com.ericsson.pc.migrationtool.bean.msdp;
+package com.ericsson.pc.migrationtool.msdp;
 
-public class PhoneField implements Comparable<PhoneField> {
-	 
+public class AccessoryField implements Comparable<AccessoryField>  {
+
 	private int order;
 	private boolean mandatory;
 	private String name;
@@ -40,8 +40,13 @@ public class PhoneField implements Comparable<PhoneField> {
 	}
 
 	@Override
-	public int compareTo(PhoneField o) {
+	public int compareTo(AccessoryField o) {
 		// TODO Auto-generated method stub
 		return getOrder() - o.getOrder();
 	}
 }
+
+
+
+
+	 

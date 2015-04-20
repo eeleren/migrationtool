@@ -1,4 +1,4 @@
-package com.ericsson.pc.migrationtool.bean.msdp;
+package com.ericsson.pc.migrationtool.msdp;
 
 import java.util.ArrayList;
 import java.util.Collections;

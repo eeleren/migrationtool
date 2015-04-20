@@ -19,7 +19,6 @@ public class PhoneConstants {
 	public static final String SERVICE_FIELD = "service";
 	public static final String BRAND_ID_FIELD = "brandId";
 	public static final String MSRP_FIELD = "msrp";
-	public static final String EQP_FIELD = "eqp";
 	public static final String PHONE_THEME_START_DATE_FIELD = "phoneThemeStartDate";
 	public static final String PHONE_THEME_START_VALIDUNTIL_FIELD = "phoneThemeVailidUntil";
 	public static final String PHONE_THEME_NAME_FIELD = "phoneThemeName";
@@ -109,7 +108,11 @@ public class PhoneConstants {
 	public static final String SPEC_FEATURES_FIELD = "specialFeatures";
 	public static final String TECH_SPEC_GROUP_COUNT_FIELD = "techSpecsGroupCount";
 	public static final String TECH_SPEC_VARIANT_FIELD = "techSpecs";
-	public static final String PICTURES_FIELD = "pictures";
+	public static final String PICTURES_PHONE_DETAILS = "phoneDetails";
+	public static final String PICTURES_SHOP_GRID = "shopGrid";
+	public static final String PICTURES_COMPARE = "compare";
+	public static final String PICTURES_CART = "cart";
+	public static final String PICTURES_ACTIVATION_FLOW = "activationFlow";
 	public static final String AVAILABLE_4_BACKORDER_FIELD = "available4backorder";
 	public static final String EXTERNAL_URL = "externalUrl";
 	public static final String SKU = "sku";
@@ -136,7 +139,6 @@ public class PhoneConstants {
 	public static final String SERVICE_VALUE= ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.serviceId");
 	public static final String BRAND_ID_VALUE = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.brandId");
 	public static final String MSRP_VALUE = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.defaultMsrpValue");
-	public static final String EQP_VALUE = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.defaultEqpValue");
 	public static final String OOS_THRESHOLD_VALUE = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.defaultOOSTresholdValue");
 	public static final String AVAILABLE_VALUE = "true";	
 	public static final String PHONE_ID_VALUE = "phoneId";	

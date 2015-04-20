@@ -1,13 +1,29 @@
-package com.ericsson.pc.migrationtool.bean.msdp;
+package com.ericsson.pc.migrationtool.msdp;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageItem {
 	
+	private boolean thumb = false;
+	
+	public void setThumb(boolean thumb) {
+		this.thumb = thumb;
+	}
+
 	private String name;
 	
 	private String path;
+	
+	private String thumbPath;
+
+	public String getThumbPath() {
+		return thumbPath;
+	}
+
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
 
 	private boolean views;
 	
@@ -52,6 +68,11 @@ public class ImageItem {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public boolean isThumb() {
+		// TODO Auto-generated method stub
+		return thumb;
 	}
 
 }

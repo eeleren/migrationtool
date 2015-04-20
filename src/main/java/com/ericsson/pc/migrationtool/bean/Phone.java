@@ -1,6 +1,7 @@
 package com.ericsson.pc.migrationtool.bean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.ericsson.pc.migrationtool.bean.Group.Spec;
@@ -83,6 +84,7 @@ public class Phone extends Model {
 	private String sku;
 	private String externalUrl;
 	private String slug;
+	private ArrayList<String> colors = new ArrayList<String>(Arrays.asList("titanium", "white"));
 
 	public String getSlug() {
 		return slug;
@@ -640,8 +642,25 @@ public class Phone extends Model {
 		return null;
 	}
 	
-	public boolean hasVariations() {
-		return !variations.isEmpty();
+	public boolean hasVariations(String slug) {
+		boolean result = false;
+		if (!variations.isEmpty()) {
+			result = true;
+		} else {
+			for (String c: colors) {
+				if (slug.contains(c)) {
+					List<Variation> variation = new ArrayList<Variation>();
+					Variation v = new Variation();
+					v.setColorVariant(c);
+					v.setId(getSku());
+					variation.add(v);
+					this.setVariations(variation);
+					result = true;
+					break;
+				}
+			}
+		}		
+		return result;
 	}
 
 	public void setIsPreowned(String preowned) {

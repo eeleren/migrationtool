@@ -1,7 +1,7 @@
-package com.ericsson.pc.migrationtool.bean.msdp;
+package com.ericsson.pc.migrationtool.msdp;
 
-public class AccessoryField implements Comparable<AccessoryField>  {
-
+public class AssetField implements Comparable<AssetField> {
+	 
 	private int order;
 	private boolean mandatory;
 	private String name;
@@ -40,13 +40,8 @@ public class AccessoryField implements Comparable<AccessoryField>  {
 	}
 
 	@Override
-	public int compareTo(AccessoryField o) {
+	public int compareTo(AssetField o) {
 		// TODO Auto-generated method stub
 		return getOrder() - o.getOrder();
 	}
 }
-
-
-
-
-	 

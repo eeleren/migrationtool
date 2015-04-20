@@ -19,10 +19,10 @@ import org.w3c.dom.Element;
 
 import com.ericsson.pc.migrationtool.bean.Accessory;
 import com.ericsson.pc.migrationtool.bean.Model;
-import com.ericsson.pc.migrationtool.bean.msdp.AccessoryAssetStructure;
-import com.ericsson.pc.migrationtool.bean.msdp.AccessoryField;
 import com.ericsson.pc.migrationtool.builder.accessory.AccessoryConstants;
 import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
+import com.ericsson.pc.migrationtool.msdp.AccessoryAssetStructure;
+import com.ericsson.pc.migrationtool.msdp.AccessoryField;
 import com.ericsson.pc.migrationtool.util.PathUtil;
 
 

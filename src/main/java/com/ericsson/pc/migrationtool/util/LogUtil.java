@@ -10,6 +10,7 @@ import com.ericsson.pc.migrationtool.bean.Group;
 import com.ericsson.pc.migrationtool.bean.Group.Spec;
 import com.ericsson.pc.migrationtool.bean.Item;
 import com.ericsson.pc.migrationtool.bean.Phone;
+import com.ericsson.pc.migrationtool.bean.PhoneManual;
 import com.ericsson.pc.migrationtool.bean.SpecialFeature;
 import com.ericsson.pc.migrationtool.bean.Variation;
 
@@ -143,4 +144,16 @@ public class LogUtil {
 		
 	}
 
+	public static void logManuals(List<PhoneManual> manuals) {
+		logger.info("Parsed the following manuals (enable debug log level for verbose logging):");
+		for (PhoneManual manual : manuals) {
+			String idBracket = "[" + manual.getId() + "] ";
+			logger.info(PARSER + " " + idBracket + "ID: " + manual.getId());
+			logger.info(PARSER + " " + idBracket + "Filename: " + manual.getFullName());
+			logger.info(PARSER + " " +idBracket + "PDF: " + manual.getPdfFileName());
+			logger.info(PARSER + " " +idBracket + "UserGuideImage: " + manual.getUserGuideImage());
+			logger.info(PARSER + " " +idBracket + "UserGuideTitleImage: " + manual.getUserGuideTitleImage());
+			logger.info(LogUtil.SEPARATOR);
+	}
+}
 }

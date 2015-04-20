@@ -1,4 +1,4 @@
-package com.ericsson.pc.migrationtool.bean.msdp;
+package com.ericsson.pc.migrationtool.msdp;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ public class PhoneAssetStructure {
 	
 	final static Logger logger = Logger.getLogger(PhoneAssetStructure.class);
 	
-	private List<PhoneField> phoneFieldList = new ArrayList<PhoneField>();
+	private List<AssetField> phoneFieldList = new ArrayList<AssetField>();
 	
 	private boolean withFeatures = false;
 	
@@ -35,18 +35,18 @@ public class PhoneAssetStructure {
 	private List<String> fieldOrderList = new LinkedList<String>();
 	
 	
-public List<PhoneField> getPhoneFieldList() {
+public List<AssetField> getPhoneFieldList() {
 		return phoneFieldList;
 	}
 
-	public void setPhoneFieldList(List<PhoneField> phoneFieldList) {
+	public void setPhoneFieldList(List<AssetField> phoneFieldList) {
 		this.phoneFieldList = phoneFieldList;
 	}
 	
-	public PhoneField getPhoneFieldByName(String fieldName) {
-		List<PhoneField> phoneFieldList = this.getPhoneFieldList();
+	public AssetField getPhoneFieldByName(String fieldName) {
+		List<AssetField> phoneFieldList = this.getPhoneFieldList();
 		
-		for (PhoneField p : phoneFieldList) {
+		for (AssetField p : phoneFieldList) {
 			if (fieldName.equalsIgnoreCase(p.getName())) {
 				return p;
 			}
@@ -55,8 +55,8 @@ public List<PhoneField> getPhoneFieldList() {
 	}
 	
 	public void setPhoneFieldValueByFieldName(String fieldName, Object fieldValue) {
-		List<PhoneField> phoneFieldList = this.getPhoneFieldList();
-		PhoneField f;
+		List<AssetField> phoneFieldList = this.getPhoneFieldList();
+		AssetField f;
 		for (int i = 0; i < phoneFieldList.size(); i++) {
 			if (fieldName.equalsIgnoreCase(phoneFieldList.get(i).getName())) {
 				f = phoneFieldList.get(i);
@@ -82,7 +82,6 @@ public List<PhoneField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.SERVICE_FIELD);
 		fieldOrderList.add(PhoneConstants.BRAND_ID_FIELD);
 		fieldOrderList.add(PhoneConstants.MSRP_FIELD);
-		fieldOrderList.add(PhoneConstants.EQP_FIELD);
 		fieldOrderList.add(PhoneConstants.PHONE_THEME_START_DATE_FIELD);
 		fieldOrderList.add(PhoneConstants.PHONE_THEME_START_VALIDUNTIL_FIELD);
 		fieldOrderList.add(PhoneConstants.PHONE_THEME_NAME_FIELD);
@@ -187,13 +186,16 @@ public List<PhoneField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.SPEC_OS_FIELD);
 		fieldOrderList.add(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD);				
 		fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
-		fieldOrderList.add(PhoneConstants.PICTURES_FIELD);
+		fieldOrderList.add(PhoneConstants.PICTURES_PHONE_DETAILS);
+		fieldOrderList.add(PhoneConstants.PICTURES_SHOP_GRID);
+		fieldOrderList.add(PhoneConstants.PICTURES_COMPARE);
+		fieldOrderList.add(PhoneConstants.PICTURES_CART);
+		fieldOrderList.add(PhoneConstants.PICTURES_ACTIVATION_FLOW);
 		
 		mandatoryFields.put(PhoneConstants.DEPLOYED_FIELD,PhoneConstants.DEPLOYED_VALUE);
 		mandatoryFields.put(PhoneConstants.SERVICE_FIELD,PhoneConstants.SERVICE_VALUE);
 		mandatoryFields.put(PhoneConstants.BRAND_ID_FIELD,PhoneConstants.BRAND_ID_VALUE);
 		mandatoryFields.put(PhoneConstants.MSRP_FIELD,PhoneConstants.MSRP_VALUE);
-		mandatoryFields.put(PhoneConstants.EQP_FIELD,PhoneConstants.EQP_VALUE);
 		mandatoryFields.put(PhoneConstants.OOS_THRESHOLD_FIELD,PhoneConstants.OOS_THRESHOLD_VALUE);
 		mandatoryFields.put(PhoneConstants.AVAILABLE_FIELD,PhoneConstants.AVAILABLE_VALUE);
 		mandatoryFields.put(PhoneConstants.EXTERNAL_URL,PhoneConstants.EXTERNAL_URL_VALUE);
@@ -220,7 +222,7 @@ public List<PhoneField> getPhoneFieldList() {
 		mandatoryFields.put(PhoneConstants.SPEC_OS_FIELD,PhoneConstants.SPEC_OS_VALUE);	
 	}
 	
-	public PhoneField checkMandatory(PhoneField f) {		
+	public AssetField checkMandatory(AssetField f) {		
 		if (mandatoryFields.containsKey(f.getName())) {
 			f.setMandatory(true);
 			f.setDefaultValue(mandatoryFields.get(f.getName()));
@@ -236,9 +238,9 @@ public List<PhoneField> getPhoneFieldList() {
 		//Create all asset fields according to the main list of parameters
 		List<String> assetFieldsList =  this.getFieldOrderList();
 		
-		PhoneField phoneField; 
+		AssetField phoneField; 
 		  for (int i = 0; i < assetFieldsList.size(); i++) {
-			    phoneField = new PhoneField();
+			    phoneField = new AssetField();
 	            phoneField.setName(assetFieldsList.get(i));
 				phoneField.setOrder(i); 
 				phoneField = phoneAsset.checkMandatory(phoneField);

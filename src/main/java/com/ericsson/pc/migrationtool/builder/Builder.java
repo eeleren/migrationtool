@@ -35,11 +35,21 @@ public abstract class Builder {
 	protected void setAssetName(String assetBrand, String assetName) {		
 		this.assetName = assetBrand + "_" + assetName;
 		this.normalizeAssetName();		
+	}
+	
+	protected void setAssetName(String assetBrand, String assetName, String variantColor) {		
+		this.assetName = assetBrand + "_" + assetName + "_" + variantColor;
+		this.normalizeAssetName();		
 	}	
 	
-	public void setAssetName(String assetBrand, String assetName, String variantColor, String variantMemory) {		
-		this.assetName = assetBrand + "_" + assetName + "_" + variantColor + "_" + variantMemory ;
-		this.normalizeAssetName();		
+	public void setAssetName(String assetBrand, String assetName, String variantColor, String variantMemory) {	
+		if (variantMemory == null) {
+			setAssetName(assetBrand, assetName, variantColor);
+		} else {
+			this.assetName = assetBrand + "_" + assetName + "_" + variantColor + "_" + variantMemory ;
+			this.normalizeAssetName();	
+		}
+	
 	}
 	
 	public void normalizeAssetName(){
