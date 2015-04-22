@@ -300,14 +300,7 @@ public class ImageBuilder {
 		if(getImageByTypeAndVariantColor(imageDir, "hero", colorVariant)!=null) {
 			phoneDetailsImages.add(getImageByTypeAndVariantColor(imageDir, "hero", colorVariant));
 		}
-		if (getImageByType(imageDir, "specifications")!=null) {
-			phoneDetailsImages.add(getImageByType(imageDir, "specifications"));
-		}
-		if (getImageByType(imageDir, "included_in_box") != null) {
-			phoneDetailsImages.add(getImageByType(imageDir, "included_in_box"));
-		}
-		
-		
+			
 		List<ImageItem> fullImages = getFullViewImages(imageDir);
 		for (ImageItem i : fullImages) {
 			phoneDetailsImages.add(i);
@@ -387,6 +380,18 @@ public class ImageBuilder {
 		
 		
 		return null;
+	}
+
+	public List<ImageItem> getFeatureImages(String imageDir) {
+		List<ImageItem> featureImages = new ArrayList<ImageItem>();
+		
+		if (getImageByType(imageDir, "specifications")!=null) {
+			featureImages.add(getImageByType(imageDir, "specifications"));
+		}
+		if (getImageByType(imageDir, "included_in_box") != null) {
+			featureImages.add(getImageByType(imageDir, "included_in_box"));
+		}
+		return featureImages;
 	}
 	
 	

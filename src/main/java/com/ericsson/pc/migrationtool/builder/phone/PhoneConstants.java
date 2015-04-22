@@ -29,7 +29,7 @@ public class PhoneConstants {
 	public static final String AVAILABLE_4_PREORDER_FIELD = "available4preorder";
 	public static final String GENERAL_AV_DATE_FIELD = "generalAvailabilityDate";
 	public static final String OVERRIDE_OOS_FIELD = "overrideOOS";
-	public static final String GROUP_ID_FIELD = "groupId";
+	//public static final String GROUP_ID_FIELD = "groupId";
 	public static final String BAZAAR_VOICE_VAR_ID_FIELD = "bazaarVoiceVariationId";	
 	public static final String GROUP_PURCH_LIMIT_FIELD = "groupPurchaseLimit";	
 	public static final String IS_REDVENTURES_FIELD = "isRedVentures";	
@@ -38,6 +38,7 @@ public class PhoneConstants {
 	public static final String IS_PREOWNED_FIELD = "isPreOwned";
 	public static final String IS_HIDDEN_FIELD = "isHidden";
 	public static final String IS_EOL_FIELD = "isEOL";
+	public static final String IS_PARENT = "parent";
 	public static final String SHORT_DESC_FIELD = "shortDescription";
 	public static final String EXT_DESC_FIELD = "extendedDescription";
 	public static final String PHONE_NAME_FIELD = "phoneName";
@@ -102,33 +103,34 @@ public class PhoneConstants {
 	public static final String COMPARE_ITEM_VISUAL_VOICE_MAIL_FIELD = "compareItemVisualVoicemail";
 	public static final String COMPARE_ITEM_3G_FIELD = "compareItem3G";
 	public static final String COMPARE_ITEM_BLUETOOTH_FIELD = "compareItemBluetooth";
-	public static final String EXTRA_FEAT_COUNT_FIELD = "extraFeatureCount";
+	//public static final String EXTRA_FEAT_COUNT_FIELD = "extraFeatureCount";
 	public static final String FEATURES_FIELD = "features";
-	public static final String SPEC_FEAT_COUNT_LIST_FIELD = "specialFeatureListCount";
+	//public static final String SPEC_FEAT_COUNT_LIST_FIELD = "specialFeatureListCount";
 	public static final String SPEC_FEATURES_FIELD = "specialFeatures";
-	public static final String TECH_SPEC_GROUP_COUNT_FIELD = "techSpecsGroupCount";
+	//public static final String TECH_SPEC_GROUP_COUNT_FIELD = "techSpecsGroupCount";
 	public static final String TECH_SPEC_VARIANT_FIELD = "techSpecs";
 	public static final String PICTURES_PHONE_DETAILS = "phoneDetails";
 	public static final String PICTURES_SHOP_GRID = "shopGrid";
 	public static final String PICTURES_COMPARE = "compare";
 	public static final String PICTURES_CART = "cart";
 	public static final String PICTURES_ACTIVATION_FLOW = "activationFlow";
+	public static final String PICTURES_FEATURES = "featureImages";
 	public static final String AVAILABLE_4_BACKORDER_FIELD = "available4backorder";
 	public static final String EXTERNAL_URL = "externalUrl";
 	public static final String SKU = "sku";
 	public static final String PHONE_GENIE_FIELD = "phoneGenie";
 	public static final String PHONE_TYPE = "phoneType";
-	public static final String SPEC_HEIGHT_FIELD = "specificationsHeight";
-	public static final String SPEC_WIDTH_FIELD = "specificationsWidth";
-	public static final String SPEC_DEPTH_FIELD = "specificationsDepth";
-	public static final String SPEC_WEIGHT_FIELD = "specificationsWeight";
-	public static final String SPEC_SCREENSIZE_FIELD = "specificationsScreenSize" ;
-	public static final String SPEC_BATTERYTYPE_FIELD = "specificationsBatteryType";
-	public static final String SPEC_TALKINGTIME_FIELD = "specificationsTalkingTime";	
-	public static final String SPEC_REMOVEABLE_FIELD = "specificationsRemoveable";
-	public static final String SPEC_MEMORY_FIELD = "specificationsMemory";
-	public static final String SPEC_PROCESSOR_FIELD = "specificationsProcessor";
-	public static final String SPEC_OS_FIELD = "specificationsOS";
+	//public static final String SPEC_HEIGHT_FIELD = "specificationsHeight";
+	//public static final String SPEC_WIDTH_FIELD = "specificationsWidth";
+	//public static final String SPEC_DEPTH_FIELD = "specificationsDepth";
+	//public static final String SPEC_WEIGHT_FIELD = "specificationsWeight";
+	//public static final String SPEC_SCREENSIZE_FIELD = "specificationsScreenSize" ;
+	//public static final String SPEC_BATTERYTYPE_FIELD = "specificationsBatteryType";
+	//public static final String SPEC_TALKINGTIME_FIELD = "specificationsTalkingTime";	
+	//public static final String SPEC_REMOVEABLE_FIELD = "specificationsRemoveable";
+	//public static final String SPEC_MEMORY_FIELD = "specificationsMemory";
+	//public static final String SPEC_PROCESSOR_FIELD = "specificationsProcessor";
+	//public static final String SPEC_OS_FIELD = "specificationsOS";
 	public static final String VARIANT_LIST_ORDER_FIELD = "variantListOrder";
 	
 	//asset default values for mandatory fields
@@ -164,6 +166,7 @@ public class PhoneConstants {
 	public static final String SPEC_MEMORY_VALUE = "memory";
 	public static final String SPEC_PROCESSOR_VALUE = "processor";
 	public static final String SPEC_OS_VALUE = "os";
+	public static final String IS_PARENT_VALUE = "true";
 	
 	//BRAND ID VALUES
 	public static final String BRAND_ID_BOOST = "bst";
@@ -176,6 +179,9 @@ public class PhoneConstants {
 	public static final String PHONE_TYPE_WINDOWS = "Windows";
 	public static final String PHONE_TYPE_BASIC = "Basic";
 	public static final String PHONE_TYPE_BLACKBERRY = "Blackberry";
+	
+	
+	
 
 	
 	

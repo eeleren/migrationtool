@@ -94,7 +94,7 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.OVERRIDE_OOS_FIELD);
 		fieldOrderList.add(PhoneConstants.EXTERNAL_URL);
 		fieldOrderList.add(PhoneConstants.SKU);
-		fieldOrderList.add(PhoneConstants.GROUP_ID_FIELD); 
+		//fieldOrderList.add(PhoneConstants.GROUP_ID_FIELD); 
 		fieldOrderList.add(PhoneConstants.BAZAAR_VOICE_VAR_ID_FIELD);
 		fieldOrderList.add(PhoneConstants.VARIANT_LIST_ORDER_FIELD);
 		fieldOrderList.add(PhoneConstants.GROUP_PURCH_LIMIT_FIELD);
@@ -105,6 +105,7 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.IS_PREOWNED_FIELD);
 		fieldOrderList.add(PhoneConstants.IS_HIDDEN_FIELD);
 		fieldOrderList.add(PhoneConstants.IS_EOL_FIELD);
+		fieldOrderList.add(PhoneConstants.IS_PARENT);
 		fieldOrderList.add(PhoneConstants.SHORT_DESC_FIELD);
 		fieldOrderList.add(PhoneConstants.EXT_DESC_FIELD);
 		fieldOrderList.add(PhoneConstants.PHONE_NAME_FIELD);
@@ -169,11 +170,11 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_VISUAL_VOICE_MAIL_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_3G_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD);
-		fieldOrderList.add(PhoneConstants.EXTRA_FEAT_COUNT_FIELD);
+		//fieldOrderList.add(PhoneConstants.EXTRA_FEAT_COUNT_FIELD);
 		fieldOrderList.add(PhoneConstants.FEATURES_FIELD);
-		fieldOrderList.add(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD);
+		//fieldOrderList.add(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_FEATURES_FIELD);
-		fieldOrderList.add(PhoneConstants.SPEC_HEIGHT_FIELD);
+		/*fieldOrderList.add(PhoneConstants.SPEC_HEIGHT_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_WIDTH_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_DEPTH_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_WEIGHT_FIELD);
@@ -183,10 +184,10 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.SPEC_REMOVEABLE_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_MEMORY_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_PROCESSOR_FIELD);
-		fieldOrderList.add(PhoneConstants.SPEC_OS_FIELD);
-		fieldOrderList.add(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD);				
-		fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
+		fieldOrderList.add(PhoneConstants.SPEC_OS_FIELD);*/
+		//fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
 		fieldOrderList.add(PhoneConstants.PICTURES_PHONE_DETAILS);
+		fieldOrderList.add(PhoneConstants.PICTURES_FEATURES);
 		fieldOrderList.add(PhoneConstants.PICTURES_SHOP_GRID);
 		fieldOrderList.add(PhoneConstants.PICTURES_COMPARE);
 		fieldOrderList.add(PhoneConstants.PICTURES_CART);
@@ -196,18 +197,18 @@ public List<AssetField> getPhoneFieldList() {
 		mandatoryFields.put(PhoneConstants.SERVICE_FIELD,PhoneConstants.SERVICE_VALUE);
 		mandatoryFields.put(PhoneConstants.BRAND_ID_FIELD,PhoneConstants.BRAND_ID_VALUE);
 		mandatoryFields.put(PhoneConstants.MSRP_FIELD,PhoneConstants.MSRP_VALUE);
-		mandatoryFields.put(PhoneConstants.OOS_THRESHOLD_FIELD,PhoneConstants.OOS_THRESHOLD_VALUE);
 		mandatoryFields.put(PhoneConstants.AVAILABLE_FIELD,PhoneConstants.AVAILABLE_VALUE);
 		mandatoryFields.put(PhoneConstants.EXTERNAL_URL,PhoneConstants.EXTERNAL_URL_VALUE);
 		mandatoryFields.put(PhoneConstants.SKU,PhoneConstants.SKU_VALUE);
 		mandatoryFields.put(PhoneConstants.IS_REDVENTURES_FIELD,PhoneConstants.IS_REDVENTURES_VALUE);
+		mandatoryFields.put(PhoneConstants.IS_PARENT,PhoneConstants.IS_PARENT_VALUE );
 		mandatoryFields.put(PhoneConstants.PHONE_GENIE_FIELD,PhoneConstants.PHONE_GENIE_VALUE);
 		mandatoryFields.put(PhoneConstants.SHORT_DESC_FIELD,PhoneConstants.SHORT_DESC_VALUE);
 		mandatoryFields.put(PhoneConstants.EXT_DESC_FIELD,PhoneConstants.EXT_DESC_VALUE);
 		mandatoryFields.put(PhoneConstants.PHONE_NAME_FIELD,PhoneConstants.PHONE_NAME_VALUE);
 		mandatoryFields.put(PhoneConstants.MANUFACT_NAME_FIELD,PhoneConstants.MANUFACT_NAME_VALUE);
 		mandatoryFields.put(PhoneConstants.MANUFACT_RAW_FIELD,PhoneConstants.MANUFACT_RAW_VALUE);
-		mandatoryFields.put(PhoneConstants.EXTRA_FEAT_COUNT_FIELD,PhoneConstants.EXTRA_FEAT_COUNT_VALUE);
+/*		mandatoryFields.put(PhoneConstants.EXTRA_FEAT_COUNT_FIELD,PhoneConstants.EXTRA_FEAT_COUNT_VALUE);
 		mandatoryFields.put(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD,PhoneConstants.SPEC_FEAT_COUNT);	
 		mandatoryFields.put(PhoneConstants.SPEC_HEIGHT_FIELD,PhoneConstants.SPEC_HEIGHT_VALUE);	
 		mandatoryFields.put(PhoneConstants.SPEC_WIDTH_FIELD,PhoneConstants.SPEC_WIDTH_VALUE);	
@@ -219,7 +220,7 @@ public List<AssetField> getPhoneFieldList() {
 		mandatoryFields.put(PhoneConstants.SPEC_REMOVEABLE_FIELD,PhoneConstants.SPEC_REMOVEABLE_VALUE);	
 		mandatoryFields.put(PhoneConstants.SPEC_MEMORY_FIELD,PhoneConstants.SPEC_MEMORY_VALUE);	
 		mandatoryFields.put(PhoneConstants.SPEC_PROCESSOR_FIELD,PhoneConstants.SPEC_PROCESSOR_VALUE);	
-		mandatoryFields.put(PhoneConstants.SPEC_OS_FIELD,PhoneConstants.SPEC_OS_VALUE);	
+		mandatoryFields.put(PhoneConstants.SPEC_OS_FIELD,PhoneConstants.SPEC_OS_VALUE);	*/
 	}
 	
 	public AssetField checkMandatory(AssetField f) {		

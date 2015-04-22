@@ -96,6 +96,7 @@ public class PhoneBuilder extends Builder {
 			variantPhone.setColorVariant(v.getColorVariant());
 			variantPhone.setGradientColor(v.getGradientColor());
 			variantPhone.setMemoryVariant(v.getMemoryVariant());
+			variantPhone.setIsParent("false");
 
 			setAssetName(variantPhone.getManufacturerRaw(), variantPhone.getPhoneNameRaw(), variantPhone.getColorVariant(), variantPhone.getMemoryVariant());
 			setVariantColor(variantPhone.getColorVariant());
@@ -123,13 +124,14 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.GENERAL_AV_DATE_FIELD, p.getDateLaunch());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.EXTERNAL_URL, p.getExternalUrl());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SKU, p.getSku());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.GROUP_ID_FIELD, p.getDefault_id());
+		//asset.setPhoneFieldValueByFieldName(PhoneConstants.GROUP_ID_FIELD, p.getDefault_id());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.VARIANT_LIST_ORDER_FIELD,getVariantlistOrder(p.getVariations()));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_REDVENTURES_FIELD, p.getRedVentures());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.GENIE_ORDER_FIELD,p.getGenieOrder());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_NEW_FIELD, p.getIsNew());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PREOWNED_FIELD, p.isPreowned());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_EOL_FIELD, p.getEol());
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PARENT, p.getIsParent());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SHORT_DESC_FIELD, p.getShortDescription());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.EXT_DESC_FIELD, p.getExtendedDescription());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.PHONE_NAME_FIELD, normalized(p.getPhoneName()));
@@ -195,9 +197,9 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_3G_FIELD, p.getCompareItem3G());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD,p.getCompareItemBluetooth());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.FEATURES_FIELD,p.getFeatureList());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD, p.getSpecialFeatureList().size() + "");
+	//	asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD, p.getSpecialFeatureList().size() + "");
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEATURES_FIELD,	p.getSpecialFeatureList());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_HEIGHT_FIELD,p.getSpecByGroupIdAndSpecType("dimensions", "height"));
+/*		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_HEIGHT_FIELD,p.getSpecByGroupIdAndSpecType("dimensions", "height"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WIDTH_FIELD,p.getSpecByGroupIdAndSpecType("dimensions", "width"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_DEPTH_FIELD,p.getSpecByGroupIdAndSpecType("dimensions", "depth"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_WEIGHT_FIELD,p.getSpecByGroupIdAndSpecType("dimensions", "weight"));
@@ -208,9 +210,9 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_MEMORY_FIELD,p.getSpecByGroupIdAndSpecType("battery", "memory"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_PROCESSOR_FIELD, p.getSpecByGroupIdAndSpecType("battery", "processor"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_OS_FIELD,p.getGroupValueById("os"));
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size() + "");
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size() + "");*/
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_PHONE_DETAILS, p.getGalleryImages());
+		//asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_PHONE_DETAILS, p.getGalleryImages());
 
 		if (p.isPreowned().equalsIgnoreCase("true")) {
 			setAssetName(getAssetName() + "_preowned");
@@ -486,11 +488,29 @@ public class PhoneBuilder extends Builder {
 						e.appendChild(variant);
 						rootElement.appendChild(e);
 
-						imageBuilder.moveImage(cartImage, outputDir
-								+ getAssetOutputDir());
+						imageBuilder.moveImage(cartImage, outputDir	+ getAssetOutputDir());
 					} else {
-						logger.error("cart image not found for asset:"
-								+ filename);
+						logger.error("cart image not found for asset:"	+ filename);
+					}
+				} else if (f.getName().equals(PhoneConstants.PICTURES_FEATURES)) {
+					logger.debug("creating xml structure for feature images");
+					
+					ImageBuilder imageBuilder = new ImageBuilder();
+					List<ImageItem> featureImages = imageBuilder.getFeatureImages(getImageDirFromSlug());
+					if ((featureImages != null) && (!featureImages.isEmpty())) {
+						
+						Element e = doc.createElement(f.getName());
+						for (ImageItem i : featureImages) {						
+							Element variant = doc.createElement("variant");
+							Element item = doc.createElement("item");
+							item.setAttribute("uri", i.getName());
+							variant.appendChild(item);
+							e.appendChild(variant);
+							rootElement.appendChild(e);
+						}
+						imageBuilder.moveImages(featureImages, outputDir + getAssetOutputDir());
+					} else {
+						logger.error("cart image not found for asset:"	+ filename);
 					}
 				} else {
 					if ((f.getValue() != null) && (!f.getValue().equals(""))) {
@@ -567,8 +587,7 @@ public class PhoneBuilder extends Builder {
 		String separator = ",";
 
 		for (int i = 0; i < variations.size(); i++) {
-			variationValues = variationValues + variations.get(i).getId()
-					+ separator;
+			variationValues = variationValues + variations.get(i).getId()+ separator;
 		}
 		if (!variationValues.equals("")) {
 			variationValues = variationValues.substring(0,
