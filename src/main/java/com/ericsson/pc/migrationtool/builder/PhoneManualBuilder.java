@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -14,28 +12,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.ericsson.pc.migrationtool.bean.Feature;
-import com.ericsson.pc.migrationtool.bean.Group;
-import com.ericsson.pc.migrationtool.bean.Item;
 import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.PhoneManual;
-import com.ericsson.pc.migrationtool.bean.SpecialFeature;
-import com.ericsson.pc.migrationtool.bean.VariantPhone;
 import com.ericsson.pc.migrationtool.builder.manual.ManualConstants;
-import com.ericsson.pc.migrationtool.builder.phone.ImageBuilder;
 import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
-import com.ericsson.pc.migrationtool.builder.phone.VariantBuilder;
 import com.ericsson.pc.migrationtool.msdp.AssetField;
-import com.ericsson.pc.migrationtool.msdp.AssetStructure;
-import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.msdp.ManualAssetStructure;
-import com.ericsson.pc.migrationtool.msdp.PhoneAssetStructure;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.PathUtil;
+import com.ericsson.pc.migrationtool.util.XmlDocumentUtil;
 
 
 
@@ -59,8 +47,7 @@ public class PhoneManualBuilder extends Builder {
 
 	@Override
 	public void createAssets(List<Model> models) {
-		PhoneManualBuilder builder = new PhoneManualBuilder();	
-		
+		PhoneManualBuilder builder = new PhoneManualBuilder();			
 		List<PhoneManual> manuals = new ArrayList<PhoneManual>();
 		
 		for (Model m: models) {
@@ -74,7 +61,7 @@ public class PhoneManualBuilder extends Builder {
 		for (PhoneManual pm: manuals) {
 			builder.setAssetName(pm.getFullName());
 			builder.setPhoneManualId(pm.getId());
-			createPhoneManualAsset(pm);
+			builder.createPhoneManualAsset(pm);
 		}
 		
 		logger.info("BUILDER EXECUTION COMPLETED!");
@@ -91,34 +78,18 @@ public class PhoneManualBuilder extends Builder {
 		
 		setAssetOutputDir(getAssetName());
 		PathUtil.createAssetOutputDir(getAssetOutputDir());		
-		
 		String filename = getAssetName();
 				
-		List<AssetField> fieldList = phoneManual.getFieldList();
-	
+		List<AssetField> fieldList = phoneManual.getFieldList();	
 		
 		try {
-				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-				docFactory.setNamespaceAware(true);
-		 
-				// root elements
-				Document doc = docBuilder.newDocument();
-								
-				Element asset = doc.createElement(PhoneConstants.ASSET_FIELD);
-				Attr attr = doc.createAttribute(PhoneConstants.PREFIX);
-				attr.setValue(PhoneConstants.NAMESPACE);
+				Document doc = XmlDocumentUtil.createDocument();		 
+				doc = XmlDocumentUtil.addNodeWithNSAttribute(doc, PhoneConstants.ASSET_FIELD, PhoneConstants.PREFIX, PhoneConstants.NAMESPACE);	
 				
-				asset.setAttributeNodeNS(attr);
-				doc.appendChild(asset);
-				
-				
-				Element rootElement = doc.createElement(ManualConstants.PHONE_MANUAL);
 				String externalId = brandId + "_" + getPhoneManualId();
-				rootElement.setAttribute(PhoneConstants.EXTERNAL_ID, externalId);
-				asset.appendChild(rootElement);
-				
-				//iteration over PhoneField elements
+				doc = XmlDocumentUtil.appendChildWithAttribute(doc, ManualConstants.PHONE_MANUAL, PhoneConstants.ASSET_FIELD, PhoneConstants.EXTERNAL_ID, externalId);				
+						
+				//iteration over AssetField elements
 				for (AssetField f : fieldList) {
 					if (f.isMandatory()) {
 						Element e = doc.createElement(f.getName());
@@ -127,7 +98,7 @@ public class PhoneManualBuilder extends Builder {
 						} else {
 							e.appendChild(doc.createTextNode(f.getDefaultValue()));
 						}						
-						rootElement.appendChild(e);
+						doc.getElementsByTagName(ManualConstants.PHONE_MANUAL).item(0).appendChild(e);
 						
 						//analysis of variants elements: pictures, extrafeatures, specialfeatures, techspec
 					} 
@@ -159,10 +130,11 @@ public class PhoneManualBuilder extends Builder {
 	 * Translates a phone data coming from boost into msdp phone assets structure
 	 * */
 	public ManualAssetStructure buildAssetStructure(PhoneManual manual) {
-			AssetStructure asset = new ManualAssetStructure();
+			ManualAssetStructure asset = new ManualAssetStructure();
 			asset.init();						
 			//setting asset fields with boost values		
-			asset.setFieldValueByFieldName(ManualConstants.FILENAME, manual.getFullName());			
+			asset.setFieldValueByFieldName(ManualConstants.FILENAME, manual.getFullName());		
+			asset.setFieldValueByFieldName(ManualConstants.USER_GUIDE_IMAGE, manual.getUserGuideImage());
 			//asset.setFieldValueByFieldName(ManualConstants.ID_FIELD, manual.getId());
 		return (ManualAssetStructure) asset;
 	}

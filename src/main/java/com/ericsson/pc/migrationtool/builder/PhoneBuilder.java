@@ -1,12 +1,9 @@
 package com.ericsson.pc.migrationtool.builder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -15,16 +12,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.ericsson.pc.migrationtool.bean.Accessory;
 import com.ericsson.pc.migrationtool.bean.Feature;
 import com.ericsson.pc.migrationtool.bean.Group;
-import com.ericsson.pc.migrationtool.bean.Item;
 import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.Phone;
 import com.ericsson.pc.migrationtool.bean.SpecialFeature;
@@ -38,7 +32,7 @@ import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.msdp.PhoneAssetStructure;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.PathUtil;
-import com.ericsson.pc.migrationtool.util.XmlUtil;
+import com.ericsson.pc.migrationtool.util.XmlDocumentUtil;
 
 public class PhoneBuilder extends Builder {
 
@@ -333,18 +327,15 @@ public class PhoneBuilder extends Builder {
 		List<AssetField> fieldList = assetPhone.getPhoneFieldList();
 
 		try {
-			Document doc = XmlUtil.createXmlDocument();
-			Element asset = doc.createElement(PhoneConstants.ASSET_FIELD);
-			Attr attr = doc.createAttribute(PhoneConstants.PREFIX);
-			attr.setValue(PhoneConstants.NAMESPACE);
-
-			asset.setAttributeNodeNS(attr);
-			doc.appendChild(asset);
+			
+			Document doc = XmlDocumentUtil.createDocument();
+			XmlDocumentUtil.addNodeWithNSAttribute(doc, PhoneConstants.ASSET_FIELD, PhoneConstants.PREFIX, PhoneConstants.NAMESPACE);
+			
 
 			Element rootElement = doc.createElement(PhoneConstants.PHONE_FIELD);
 			String externalId = brandId+ "_" + (String) assetPhone.getPhoneFieldByName(PhoneConstants.SKU).getValue();
 			rootElement.setAttribute(PhoneConstants.EXTERNAL_ID, externalId);
-			asset.appendChild(rootElement);
+			doc.getElementsByTagName(PhoneConstants.ASSET_FIELD).item(0).appendChild(rootElement);
 
 			// iteration over PhoneField elements
 			for (AssetField f : fieldList) {

@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -68,6 +69,7 @@ public class PhoneManualParser implements Parser {
     					m.setId(n.getTextContent());
     				}
     				if (n.getNodeName().equals("fullname")) {
+    					logger.debug("Fullname: "+n.getTextContent());
     					m.setFullName(n.getTextContent());
     				} if(n.getNodeName().equalsIgnoreCase("userguide")) {
     					NodeList userGuideNodeChildren = n.getChildNodes();
@@ -77,11 +79,13 @@ public class PhoneManualParser implements Parser {
     						}
     					}
     				} if (n.getNodeName().equalsIgnoreCase("images")) {
-    					NodeList imagesNodeChildren = n.getChildNodes();
-    					Node userGuideTitle = imagesNodeChildren.item(0);
-    					Node userGuideImage = imagesNodeChildren.item(1);
-    					m.setUserGuideImage(userGuideTitle.getTextContent());
-    					m.setUserGuideImage(userGuideImage.getTextContent());
+    					Element nImages = (Element)n;
+    					String userGuideTitle = nImages.getElementsByTagName("image").item(0).getTextContent();
+    					String userGuideTitleImage = nImages.getElementsByTagName("image").item(1).getTextContent();    				
+    					logger.debug(userGuideTitle);
+    					logger.debug(userGuideTitleImage);    			
+    					m.setUserGuideTitleImage(userGuideTitle);
+    					m.setUserGuideImage(userGuideTitleImage);
     					}
     				}
     				

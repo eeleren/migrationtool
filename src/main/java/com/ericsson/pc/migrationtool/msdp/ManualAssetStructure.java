@@ -21,7 +21,7 @@ public class ManualAssetStructure extends AssetStructure {
 		getFieldOrderList().add(ManualConstants.ID_FIELD);
 		getFieldOrderList().add(ManualConstants.USER_GUIDE_IMAGE);
 		getFieldOrderList().add(ManualConstants.USER_GUIDE_TITLE_IMAGE);
-		getFieldOrderList().add(ManualConstants.MANUAL_PDF);		
+		getFieldOrderList().add(ManualConstants.MANUAL_PDF);
 		
 		getMandatoryFields().put(ManualConstants.DEPLOYED_FIELD,PhoneConstants.DEPLOYED_VALUE);
 		getMandatoryFields().put(ManualConstants.SERVICE_FIELD, ManualConstants.SERVICE_VALUE);

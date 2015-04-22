@@ -84,21 +84,19 @@ public class AssetStructure {
 	}
 	
 	public void init() {
-		AssetStructure asset = new AssetStructure();
-		//Create all asset fields according to the main list of parameters
-		List<String> assetFieldsList =  this.getFieldOrderList();
+			List<String> assetFieldsList =  this.getFieldOrderList();
 		
 		AssetField field; 
 		  for (int i = 0; i < assetFieldsList.size(); i++) {
 			  field = new AssetField();
 			  field.setName(assetFieldsList.get(i));
 			  field.setOrder(i); 
-			  field = asset.checkMandatory(field);
+			  field = this.checkMandatory(field);
 			  fieldList.add(field);
 	        }		 
 		  //sort the list of fields according to the order value
 		  Collections.sort(fieldList);
-		  asset.setFieldList(fieldList);		
+		  this.setFieldList(fieldList);		
 	}
 
 }
