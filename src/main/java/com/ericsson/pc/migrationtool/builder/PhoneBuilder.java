@@ -341,7 +341,7 @@ public class PhoneBuilder extends Builder {
 			for (AssetField f : fieldList) {
 				if (f.isMandatory()) {
 					Element e = doc.createElement(f.getName());
-					if (f.getValue() != null) {
+					if (!"".equalsIgnoreCase((String)f.getValue()) && (f.getValue() != null)) {
 						e.appendChild(doc.createTextNode((String) f.getValue()));
 					} else {
 						e.appendChild(doc.createTextNode(f.getDefaultValue()));
@@ -444,8 +444,7 @@ public class PhoneBuilder extends Builder {
 						variant.appendChild(item);
 						e.appendChild(variant);
 						rootElement.appendChild(e);
-						imageBuilder.moveImage(shopImage, outputDir
-								+ getAssetOutputDir());
+						imageBuilder.moveImage(shopImage, outputDir	+ getAssetOutputDir());
 
 					} else {
 						logger.error("images not found for asset:" + filename);
@@ -521,6 +520,7 @@ public class PhoneBuilder extends Builder {
 		} catch (TransformerException tfe) {
 
 			logger.error("TransoformerException: " + tfe.getMessage());
+			tfe.printStackTrace();
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
