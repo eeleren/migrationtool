@@ -85,6 +85,15 @@ public class Phone extends Model {
 	private String externalUrl;
 	private String slug;
 	private ArrayList<String> colors = new ArrayList<String>(Arrays.asList("titanium", "white"));
+	private String originalPrice;
+	
+	public String getOriginalPrice() {
+		return originalPrice;
+	}
+
+	public void setOriginalPrice(String originalPrice) {
+		this.originalPrice = originalPrice;
+	}
 
 	public String getSlug() {
 		return slug;
@@ -176,6 +185,7 @@ public class Phone extends Model {
 		setExternalUrl(p.getExternalUrl());
 		setSku(p.getSku());
 		setSlug(p.getSlug());
+		setOriginalPrice(p.getOriginalPrice());
 		
 	};
 	

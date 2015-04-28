@@ -8,13 +8,19 @@ public class VariantPhone extends Phone {
 	private String colorId;
 	private String gradientColor;
 	private String memoryVariant;
-	private String isParent;
+	private String parent;
+	private String originalPrice;
 	
-
 	public VariantPhone(Phone p) {
 		super(p);
 	}
 	
+	public String getOriginalPrice() {
+		return originalPrice;
+	}
+	public void setOriginalPrice(String originalPrice) {
+		this.originalPrice = originalPrice;
+	}
 	public String getColorVariant() {
 		return colorVariant;
 	}
@@ -40,13 +46,13 @@ public class VariantPhone extends Phone {
 		this.colorId = colorId;
 	}
 
-	public void setIsParent(String parent) {
-		isParent = parent;
+	public void setParent(String parent) {
+		this.parent = parent;
 		
 	}
 	
-	public String getIsParent() {
-		return isParent;
+	public String getParent() {
+		return parent;
 		
 	}
 	

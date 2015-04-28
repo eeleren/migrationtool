@@ -185,13 +185,14 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.SPEC_MEMORY_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_PROCESSOR_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_OS_FIELD);*/
-		//fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
+		fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
 		fieldOrderList.add(PhoneConstants.PICTURES_PHONE_DETAILS);
 		fieldOrderList.add(PhoneConstants.PICTURES_FEATURES);
 		fieldOrderList.add(PhoneConstants.PICTURES_SHOP_GRID);
 		fieldOrderList.add(PhoneConstants.PICTURES_COMPARE);
 		fieldOrderList.add(PhoneConstants.PICTURES_CART);
 		fieldOrderList.add(PhoneConstants.PICTURES_ACTIVATION_FLOW);
+		fieldOrderList.add(PhoneConstants.USER_GUIDE_NAME);
 		
 		mandatoryFields.put(PhoneConstants.DEPLOYED_FIELD,PhoneConstants.DEPLOYED_VALUE);
 		mandatoryFields.put(PhoneConstants.SERVICE_FIELD,PhoneConstants.SERVICE_VALUE);
@@ -208,6 +209,7 @@ public List<AssetField> getPhoneFieldList() {
 		mandatoryFields.put(PhoneConstants.PHONE_NAME_FIELD,PhoneConstants.PHONE_NAME_VALUE);
 		mandatoryFields.put(PhoneConstants.MANUFACT_NAME_FIELD,PhoneConstants.MANUFACT_NAME_VALUE);
 		mandatoryFields.put(PhoneConstants.MANUFACT_RAW_FIELD,PhoneConstants.MANUFACT_RAW_VALUE);
+		mandatoryFields.put(PhoneConstants.GENERAL_AV_DATE_FIELD,  PhoneConstants.GENERAL_AV_DATE_VALUE);
 /*		mandatoryFields.put(PhoneConstants.EXTRA_FEAT_COUNT_FIELD,PhoneConstants.EXTRA_FEAT_COUNT_VALUE);
 		mandatoryFields.put(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD,PhoneConstants.SPEC_FEAT_COUNT);	
 		mandatoryFields.put(PhoneConstants.SPEC_HEIGHT_FIELD,PhoneConstants.SPEC_HEIGHT_VALUE);	

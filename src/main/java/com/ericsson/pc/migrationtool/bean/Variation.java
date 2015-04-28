@@ -9,8 +9,21 @@ public class Variation {
 	private String colorId; //@fced6b
 	private String gradientColor;
 	private String memoryVariant;
+	private String parentId;
+	private String originalPrice;
 	
-	
+	public String getOriginalPrice() {
+		return originalPrice;
+	}
+	public void setOriginalPrice(String originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
 	public String getColorVariant() {
 		return colorVariant;
 	}

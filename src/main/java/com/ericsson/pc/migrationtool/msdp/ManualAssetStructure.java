@@ -27,6 +27,6 @@ public class ManualAssetStructure extends AssetStructure {
 		getMandatoryFields().put(ManualConstants.SERVICE_FIELD, ManualConstants.SERVICE_VALUE);
 		getMandatoryFields().put(ManualConstants.BRAND_ID_FIELD,PhoneConstants.BRAND_ID_VALUE);
 		getMandatoryFields().put(ManualConstants.FILENAME, ManualConstants.FILENAME_VALUE);
-		
+		getMandatoryFields().put(ManualConstants.MANUAL_PDF, ManualConstants.FILENAME_VALUE);
 	}
 }

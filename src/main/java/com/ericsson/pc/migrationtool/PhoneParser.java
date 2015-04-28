@@ -33,6 +33,7 @@ import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.LogUtil;
 import com.ericsson.pc.migrationtool.util.PathUtil;
+import com.ericsson.pc.migrationtool.util.StringUtil;
 import com.ericsson.pc.migrationtool.util.XPathUtil;
 
 public class PhoneParser implements Parser {
@@ -66,6 +67,7 @@ public class PhoneParser implements Parser {
 		return parse(phonePathList);
 	}
 	
+	
 	public List<Model> parse(List<String> phonePathList) {
 		List phoneList = new ArrayList<Phone>();
 		
@@ -80,6 +82,7 @@ public class PhoneParser implements Parser {
 		
 		getCatalogue(phoneList);
 		getAccessories(phoneList);
+		getPrices(phoneList);
 		cleanPhoneList(phoneList);
 		
 		LogUtil.logPhones(phoneList);
@@ -87,6 +90,40 @@ public class PhoneParser implements Parser {
 		logger.info("PARSER EXECUTION COMPLETED!");
 		
 		return phoneList;
+	}
+	
+	private void getPrices(List<Phone> phoneList) {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder = null;
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+		
+		try {
+			builder = factory.newDocumentBuilder();
+	        Document doc = builder.parse(PathUtil.getPricesPath());
+	        
+	        for (Phone phone : phoneList) {
+	        	if (phone.getVariations() != null && phone.getVariations().size() > 0) {
+	        		List<Variation> variations = phone.getVariations();
+	        		
+	        		for (Variation var : variations) {
+	        			String skuVar = var.getId();
+	        			
+	        			String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + skuVar +"']/prices/price/original-price/text()");
+	        			var.setOriginalPrice(originalPrice);
+	        		}
+	        	} else {
+		        	String sku = phone.getSku();
+		        	
+		        	String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + sku +"']/prices/price/original-price/text()");
+		        	phone.setOriginalPrice(originalPrice);
+	        	}
+	        }
+			
+		} catch (Exception e) {
+			logger.error(e, e);
+		}
 	}
 	
 	private void getAccessories(List<Phone> phoneList) {
@@ -231,7 +268,8 @@ public class PhoneParser implements Parser {
 		    		variation.setId(n.getAttributes().getNamedItem("id").getNodeValue());
 		    		String color = n.getAttributes().getNamedItem("color").getNodeValue();
 		    		variation.setColorVariant(color);
-		    		variation.setMemoryVariant(n.getAttributes().getNamedItem("memory").getNodeValue());
+		    		String mem = n.getAttributes().getNamedItem("memory").getNodeValue();
+		    		variation.setMemoryVariant(XPathUtil.getValueAsString(doc, xpath, "/page/product/variations/options/option[@id='memory']/value[@id='" + mem + "']/text()"));
 		    		
 		    		variation.setGradientColor(XPathUtil.getValueAsString(doc, xpath, "/page/product/variations/options/option[@id='color']/value[@id='" + color + "']/@gradient-color"));
 		    		//String gradientColor = variation.getGradientColor().replaceAll("#", "c");

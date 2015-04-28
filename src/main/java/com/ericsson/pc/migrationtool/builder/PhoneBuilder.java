@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,17 +22,20 @@ import com.ericsson.pc.migrationtool.bean.Feature;
 import com.ericsson.pc.migrationtool.bean.Group;
 import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.Phone;
+import com.ericsson.pc.migrationtool.bean.PhoneManual;
 import com.ericsson.pc.migrationtool.bean.SpecialFeature;
 import com.ericsson.pc.migrationtool.bean.VariantPhone;
 import com.ericsson.pc.migrationtool.bean.Variation;
 import com.ericsson.pc.migrationtool.builder.phone.ImageBuilder;
 import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 import com.ericsson.pc.migrationtool.builder.phone.VariantBuilder;
+import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.msdp.AssetField;
 import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.msdp.PhoneAssetStructure;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.PathUtil;
+import com.ericsson.pc.migrationtool.util.StringUtil;
 import com.ericsson.pc.migrationtool.util.XmlDocumentUtil;
 
 public class PhoneBuilder extends Builder {
@@ -96,7 +100,8 @@ public class PhoneBuilder extends Builder {
 			variantPhone.setColorVariant(v.getColorVariant());
 			variantPhone.setGradientColor(v.getGradientColor());
 			variantPhone.setMemoryVariant(v.getMemoryVariant());
-			variantPhone.setIsParent("false");
+			variantPhone.setParent(v.getId().equalsIgnoreCase(phone.getDefault_id())?"true":"false");
+			variantPhone.setOriginalPrice(StringUtils.normalizeSpace(v.getOriginalPrice()));
 
 			setAssetName(variantPhone.getManufacturerRaw(), variantPhone.getPhoneNameRaw(), variantPhone.getColorVariant(), variantPhone.getMemoryVariant());
 			setVariantColor(variantPhone.getColorVariant());
@@ -125,13 +130,13 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.EXTERNAL_URL, p.getExternalUrl());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SKU, p.getSku());
 		//asset.setPhoneFieldValueByFieldName(PhoneConstants.GROUP_ID_FIELD, p.getDefault_id());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.VARIANT_LIST_ORDER_FIELD,getVariantlistOrder(p.getVariations()));
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.VARIANT_LIST_ORDER_FIELD,getVariantlistOrder(p.getVariations(), p));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_REDVENTURES_FIELD, p.getRedVentures());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.GENIE_ORDER_FIELD,p.getGenieOrder());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_NEW_FIELD, p.getIsNew());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PREOWNED_FIELD, p.isPreowned());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_EOL_FIELD, p.getEol());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PARENT, p.getIsParent());
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.IS_PARENT, p.getParent());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SHORT_DESC_FIELD, p.getShortDescription());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.EXT_DESC_FIELD, p.getExtendedDescription());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.PHONE_NAME_FIELD, normalized(p.getPhoneName()));
@@ -211,7 +216,8 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_PROCESSOR_FIELD, p.getSpecByGroupIdAndSpecType("battery", "processor"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_OS_FIELD,p.getGroupValueById("os"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size() + "");*/
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList());
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList()); //ebragan: was commented, why?
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.MSRP_FIELD, StringUtil.normalizePrice(p.getOriginalPrice()));
 		//asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_PHONE_DETAILS, p.getGalleryImages());
 
 		if (p.isPreowned().equalsIgnoreCase("true")) {
@@ -223,8 +229,9 @@ public class PhoneBuilder extends Builder {
 
 	private String normalized(String phoneName) {
 		if(phoneName.contains("#8482")) {
-			phoneName.replace(phoneName.substring(phoneName.indexOf("&"), phoneName.length()), "&#8482;");
+			phoneName.replace(phoneName.substring(phoneName.indexOf("&"), phoneName.length()), "&#8482;"); //ebragan: gatta fai cac!
 		}
+		
 		return phoneName;
 	}
 
@@ -512,6 +519,30 @@ public class PhoneBuilder extends Builder {
 					} else {
 						logger.error("cart image not found for asset:"	+ filename);
 					}
+				} else if (f.getName().equals(PhoneConstants.USER_GUIDE_NAME)) {
+					//parsing phone manuals to set pdf name in phone meta UserGuideName
+					Class parser = Class.forName("com.ericsson.pc.migrationtool." + "PhoneManual" + "Parser");
+					List<Model> phoneManualsList = ((Parser)(parser.newInstance())).execute();
+					
+					PhoneManual pm = null;
+					
+					for (Model m : phoneManualsList) {
+						if (m instanceof PhoneManual) {
+							pm = (PhoneManual)m;
+							
+							if (pm.getPdfFileName() != null && !"".equalsIgnoreCase(pm.getPdfFileName())) {
+								String exteranlIdNoBrandId = externalId.substring(4);
+								
+								if (exteranlIdNoBrandId.equals(pm.getId())) {
+									Element e = doc.createElement("userGuide");
+									e.appendChild(doc.createTextNode(FilenameUtils.removeExtension(pm.getPdfFileName())));
+									
+									rootElement.appendChild(e);
+								}
+							}
+						}
+					}
+					
 				} else {
 					if ((f.getValue() != null) && (!f.getValue().equals(""))) {
 						Element e = doc.createElement(f.getName());
@@ -581,8 +612,11 @@ public class PhoneBuilder extends Builder {
 		return accessoriesValues;
 	}
 
-	public static String getVariantlistOrder(List<Variation> variations) {
+	public static String getVariantlistOrder(List<Variation> variations, VariantPhone p) {
 
+		if ("false".equalsIgnoreCase(p.getParent()))
+			return "";
+		
 		String variationValues = "";
 		String separator = ",";
 
@@ -628,5 +662,4 @@ public class PhoneBuilder extends Builder {
 	public void setSlug(String slug) {
 		this.slug = slug;
 	}
-
 }

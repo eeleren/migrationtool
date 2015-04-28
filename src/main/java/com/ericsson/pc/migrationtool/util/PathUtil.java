@@ -1,6 +1,7 @@
 package com.ericsson.pc.migrationtool.util;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class PathUtil {
 	private static String ACCESSORY_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.accessory");
 	private static String OUTPUT_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.outputdir");
 	private static String PHONE_MANUAL_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.phonemanual");
+	private static String PRICES_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.prices");
 	private static String PHONE_FILE_EXTENSION = ".xml";
 
 	public static String getCataloguePath() {
@@ -111,5 +113,10 @@ public class PathUtil {
 		logger.info("Assets directories cleanup completed");
 	}
 
+	public static String getPricesPath() {
+		return PRICES_FILE_PATH;
+	}
+
 
 }
+

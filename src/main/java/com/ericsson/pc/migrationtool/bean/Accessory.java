@@ -41,7 +41,4 @@ public class Accessory extends Model {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
-	
-
 }

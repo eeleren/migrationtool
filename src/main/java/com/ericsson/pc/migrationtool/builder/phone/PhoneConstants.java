@@ -1,6 +1,7 @@
 package com.ericsson.pc.migrationtool.builder.phone;
 
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
+import com.ericsson.pc.migrationtool.util.DateUtil;
 
 public class PhoneConstants {
 	
@@ -120,6 +121,7 @@ public class PhoneConstants {
 	public static final String SKU = "sku";
 	public static final String PHONE_GENIE_FIELD = "phoneGenie";
 	public static final String PHONE_TYPE = "phoneType";
+	public static final String USER_GUIDE_NAME = "UserGuideName";
 	//public static final String SPEC_HEIGHT_FIELD = "specificationsHeight";
 	//public static final String SPEC_WIDTH_FIELD = "specificationsWidth";
 	//public static final String SPEC_DEPTH_FIELD = "specificationsDepth";
@@ -167,6 +169,7 @@ public class PhoneConstants {
 	public static final String SPEC_PROCESSOR_VALUE = "processor";
 	public static final String SPEC_OS_VALUE = "os";
 	public static final String IS_PARENT_VALUE = "true";
+	public static final String GENERAL_AV_DATE_VALUE = DateUtil.getTodayAsString(); //TODO: change
 	
 	//BRAND ID VALUES
 	public static final String BRAND_ID_BOOST = "bst";

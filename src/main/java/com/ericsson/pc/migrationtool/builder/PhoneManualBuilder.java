@@ -102,6 +102,16 @@ public class PhoneManualBuilder extends Builder {
 						
 						//analysis of variants elements: pictures, extrafeatures, specialfeatures, techspec
 					} 
+					else if (f.getName().equals(ManualConstants.MANUAL_PDF) && (f.getValue() != null)) {
+						Element e = doc.createElement(f.getName());
+						
+						if (f.getValue()!= null) {
+							e.appendChild(doc.createTextNode((String) f.getValue()));
+						} else {
+							e.appendChild(doc.createTextNode(f.getDefaultValue()));
+						}						
+						doc.getElementsByTagName(ManualConstants.PHONE_MANUAL).item(0).appendChild(e);
+					}
 				}
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
@@ -135,7 +145,9 @@ public class PhoneManualBuilder extends Builder {
 			//setting asset fields with boost values		
 			asset.setFieldValueByFieldName(ManualConstants.FILENAME, manual.getFullName());		
 			asset.setFieldValueByFieldName(ManualConstants.USER_GUIDE_IMAGE, manual.getUserGuideImage());
+			asset.setFieldValueByFieldName(ManualConstants.MANUAL_PDF, manual.getPdfFileName());
 			//asset.setFieldValueByFieldName(ManualConstants.ID_FIELD, manual.getId());
 		return (ManualAssetStructure) asset;
 	}
 }
+
