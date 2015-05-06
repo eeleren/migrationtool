@@ -349,11 +349,12 @@ public class ImageBuilder {
 
 	
 	private ImageItem getImageByType (String imageDir, String imageType) {
-		ImageItem anImage = new ImageItem();		
+		ImageItem anImage = null;		
 		File root = new File(imageDir);
 		File[] imagesFile = root.listFiles();		
 		for (File f : imagesFile) {			
 			if(f.getName().contains(imageType)) {
+				anImage = new ImageItem();
 				anImage.setName(f.getName());
 				anImage.setPath(f.getPath());
 				logger.debug("Found image with name: "+ anImage.getName()+" in the directory: "+anImage.getPath());				

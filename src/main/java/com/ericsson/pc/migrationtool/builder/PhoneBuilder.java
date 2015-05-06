@@ -101,7 +101,7 @@ public class PhoneBuilder extends Builder {
 			variantPhone.setGradientColor(v.getGradientColor());
 			variantPhone.setMemoryVariant(v.getMemoryVariant());
 			variantPhone.setParent(v.getId().equalsIgnoreCase(phone.getDefault_id())?"true":"false");
-			variantPhone.setOriginalPrice(StringUtils.normalizeSpace(v.getOriginalPrice()));
+			variantPhone.setOriginalPrice(v.getOriginalPrice());
 
 			setAssetName(variantPhone.getManufacturerRaw(), variantPhone.getPhoneNameRaw(), variantPhone.getColorVariant(), variantPhone.getMemoryVariant());
 			setVariantColor(variantPhone.getColorVariant());
@@ -217,7 +217,7 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_OS_FIELD,p.getGroupValueById("os"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size() + "");*/
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList()); //ebragan: was commented, why?
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.MSRP_FIELD, StringUtil.normalizePrice(p.getOriginalPrice()));
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.MSRP_FIELD, p.getOriginalPrice());
 		//asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_PHONE_DETAILS, p.getGalleryImages());
 
 		if (p.isPreowned().equalsIgnoreCase("true")) {
