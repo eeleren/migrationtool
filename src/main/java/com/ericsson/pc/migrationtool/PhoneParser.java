@@ -119,7 +119,27 @@ public class PhoneParser implements Parser {
 		        	String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + sku +"']/prices/price/original-price/text()");
 		        	phone.setOriginalPrice(originalPrice);
 	        	}
+	        	
+	        	
+	        	//Fetching prices for accessories
+	        	List<Accessory> accessoryList = phone.getAccessories();
+	        	
+	        	for (Accessory a: accessoryList) {
+		        	String accessoryId = a.getId();
+		        	
+		        	String type = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/@product-type");
+		        	String startDate = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/@start-date");
+		        	String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/original-price/text()");
+		        	String salePrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/sale-price/text()");
+		        	
+		        	a.setType(type);
+		        	a.setStartDate(startDate);
+		        	a.setOriginalPrice(originalPrice);
+		        	a.setSalePrice(salePrice);
+		        }
 	        }
+	        
+	        
 			
 		} catch (Exception e) {
 			logger.error(e, e);
