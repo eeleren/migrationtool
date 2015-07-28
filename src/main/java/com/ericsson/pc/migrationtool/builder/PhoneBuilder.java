@@ -326,7 +326,7 @@ public class PhoneBuilder extends Builder {
 		String imageDir = ImageBuilder.getIMAGE_FILE_PATH() + File.separator+ slug;
 		return imageDir;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void createXml(PhoneAssetStructure assetPhone) {
 

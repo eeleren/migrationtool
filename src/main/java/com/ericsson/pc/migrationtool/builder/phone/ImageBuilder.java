@@ -22,9 +22,14 @@ public class ImageBuilder {
 	final static Logger logger = Logger.getLogger(ImageBuilder.class);
 	
 	private static String IMAGE_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.imagePath");
+	private static String ACCESSORY_IMAGE_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.accessory.imagePath");
 	
 	public static String getIMAGE_FILE_PATH() {
 		return IMAGE_FILE_PATH;
+	}
+	
+	public static String getACCESSORY_IMAGE_FILE_PATH() {
+		return ACCESSORY_IMAGE_FILE_PATH;
 	}
 
 	public static void setIMAGE_FILE_PATH(String iMAGE_FILE_PATH) {
@@ -395,6 +400,43 @@ public class ImageBuilder {
 		return featureImages;
 	}
 	
+	public ImageItem getAccessoryShopImage(String ImageDir) {
+		ImageItem shopImage = new ImageItem();
+		
+		File root = new File(ImageDir);
+		File[] imagesFile = root.listFiles();
+		
+		for (File f : imagesFile) {
+			
+			if(f.getName().contains("shop")) {
+				shopImage.setName(f.getName());
+				shopImage.setPath(f.getPath());
+				logger.debug("Found shop image with name: "+ shopImage.getName()+" in the directory: "+shopImage.getPath());
+				
+			}
+		}
+		
+		return shopImage;
+	}
+	
+	public ImageItem getAccessoryCartImage(String ImageDir) {
+		ImageItem shopImage = new ImageItem();
+		
+		File root = new File(ImageDir);
+		File[] imagesFile = root.listFiles();
+		
+		for (File f : imagesFile) {
+			
+			if(f.getName().contains("cart")) {
+				shopImage.setName(f.getName());
+				shopImage.setPath(f.getPath());
+				logger.debug("Found cart image with name: "+ shopImage.getName()+" in the directory: "+shopImage.getPath());
+				
+			}
+		}
+		
+		return shopImage;
+	}
 	
 	
 
