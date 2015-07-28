@@ -227,4 +227,3 @@ public class AccessoryBuilder extends Builder {
 		return imageDir;
 	}
 }
-

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.ericsson.pc.migrationtool.bean.Accessory;
+import com.ericsson.pc.migrationtool.bean.Banner;
 import com.ericsson.pc.migrationtool.bean.Feature;
 import com.ericsson.pc.migrationtool.bean.Group;
 import com.ericsson.pc.migrationtool.bean.Group.Spec;
@@ -94,7 +95,7 @@ public class LogUtil {
 			for (Accessory a : phone.getAccessories()) {
 				logger.debug(PARSER + " " +idBracket + "Accessory: " + a.getId());
 			}
-			logger.debug(PARSER + " " +idBracket + "Compare OS: " + phone.getCompareItemOS());
+/*			logger.debug(PARSER + " " +idBracket + "Compare OS: " + phone.getCompareItemOS());
 			logger.debug(PARSER + " " +idBracket + "Compare Display: " + phone.getCompareItemDisplay());
 			logger.debug(PARSER + " " +idBracket + "Compare Camera: " + phone.getCompareItemCamera());
 			logger.debug(PARSER + " " +idBracket + "Compare WiFi: " + phone.getCompareItemWifi());
@@ -113,7 +114,12 @@ public class LogUtil {
 			logger.debug(PARSER + " " +idBracket + "Compare Calendar: " + phone.getCompareItemCalendar());
 			logger.debug(PARSER + " " +idBracket + "Compare Voicemail: " + phone.getCompareItemVisualVoicemail());
 			logger.debug(PARSER + " " +idBracket + "Compare 3G: " + phone.getCompareItem3G());
-			logger.debug(PARSER + " " +idBracket + "Compare Bluethoot: " + phone.getCompareItemBluetooth());
+			logger.debug(PARSER + " " +idBracket + "Compare Bluethoot: " + phone.getCompareItemBluetooth());*/
+			
+			//Compare Alternative
+			for (String s: phone.getCompareList()) {				
+				logger.debug(PARSER + " " +idBracket + "Compare feature: " + s);
+			}
 			
 			for (Feature f : phone.getFeatureList()) {
 				logger.debug(PARSER + " " +idBracket + "Feature ID: " + f.getFeatureId());
@@ -153,6 +159,26 @@ public class LogUtil {
 			logger.info(PARSER + " " +idBracket + "PDF: " + manual.getPdfFileName());
 			logger.info(PARSER + " " +idBracket + "UserGuideImage: " + manual.getUserGuideImage());
 			logger.info(PARSER + " " +idBracket + "UserGuideTitleImage: " + manual.getUserGuideTitleImage());
+			logger.info(LogUtil.SEPARATOR);
+	}
+}
+	
+	public static void logBanners(List<Banner> banners) {
+		logger.info("Parsed the following banners (enable debug log level for verbose logging):");
+		for (Banner banner : banners) {
+			String idBracket = "[" + banner.getId() + "] ";
+			logger.info(PARSER + " " + idBracket + "id: " + banner.getId());
+			logger.info(PARSER + " " + idBracket + "active: " + banner.getIsActive());
+			logger.info(PARSER + " " + idBracket + "ImageFolder: " + banner.getImgFolder());
+			logger.info(PARSER + " " + idBracket + "url: " + banner.getUrl());
+			logger.info(PARSER + " " + idBracket + "imageName: " + banner.getImageName());
+			logger.info(PARSER + " " + idBracket + "home: " + banner.getHome());
+			logger.info(PARSER + " " + idBracket + "grid: " + banner.getHasGrid());
+			logger.info(PARSER + " " + idBracket + "detail: " + banner.getHasDetail());
+			logger.info(PARSER + " " + idBracket + "plans: " + banner.getPlans());
+			logger.info(PARSER + " " + idBracket + "accessories: " + banner.getAccessories());
+			logger.info(PARSER + " " + idBracket + "cart: " + banner.getCart());
+			logger.info(PARSER + " " + idBracket + "deals: " + banner.getDeals());
 			logger.info(LogUtil.SEPARATOR);
 	}
 }

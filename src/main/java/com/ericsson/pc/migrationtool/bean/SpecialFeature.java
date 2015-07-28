@@ -2,8 +2,24 @@ package com.ericsson.pc.migrationtool.bean;
 
 public class SpecialFeature {
 	
-	private String specialFeatureId;
+	/**
+	 *   If the specialFeature appears with the following structure, the parameter @specialFeatureName will be used        
+	 *          <list> 
+                <item><![CDATA[3-way calling]]></item> 
+				...
+				</list>
+	 * 
+	 * */
 	private String specialFeatureName;
+	
+	/**
+	 *   If the specialFeature appears with the following structure, the parameter @specialFeatureId will be used        
+	 *           
+	 *           <feature id="microsd-2gb-card-included" featured="false" url="" order="11"></feature>
+	 * 
+	 * */
+	private String specialFeatureId;
+	
 	
 	public String getSpecialFeatureId() {
 		return specialFeatureId;

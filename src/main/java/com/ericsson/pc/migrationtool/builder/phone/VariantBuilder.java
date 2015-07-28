@@ -46,6 +46,28 @@ public class VariantBuilder {
 	private String techSpecName = "";
 	private String techSpecFile = "";
 	
+
+	private String compareFeaturesName = "";
+	private String compareFeaturesFile = "";
+
+
+	
+	public String getCompareFeaturesName() {
+		return compareFeaturesName;
+	}
+
+	public void setCompareFeaturesName(String compareFeaturesName) {
+		this.compareFeaturesName = compareFeaturesName;
+	}
+
+	public String getCompareFeaturesFile() {
+		return compareFeaturesFile;
+	}
+
+	public void setCompareFeaturesFile(String compareFeaturesFile) {
+		this.compareFeaturesFile = compareFeaturesFile;
+	}
+	
 	public String getTechSpecName() {
 		return techSpecName;
 	}
@@ -112,8 +134,7 @@ public class VariantBuilder {
 	 */
 	public void createPhoneFeatures(List<Feature> featuresList) {
 		//File featureFile= new File(outputDir+assetName+separator+assetName+featureExtension);
-		File featureFile = new File(getFeatureFile());
-		logger.debug(featureFile.getAbsolutePath());
+		File featureFile = new File(getFeatureFile());		
 				
 		try {
 			 
@@ -131,7 +152,11 @@ public class VariantBuilder {
 					Element featureId = doc.createElement("reference");
 					featureId.appendChild(doc.createTextNode(f.getExtraFeatureIconName()));
 					root.appendChild(featureId);
-				} 
+				} else if ((f.getFeatureId()!= null) && (f.getFeatured()!=null) && (f.getFeatured().equalsIgnoreCase("true"))) {
+					Element featureId = doc.createElement("reference");
+					featureId.appendChild(doc.createTextNode(f.getFeatureId()));
+					root.appendChild(featureId);
+				}
 			}
 			 
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -142,7 +167,7 @@ public class VariantBuilder {
 				StreamResult result = new StreamResult(featureFile);
 							transformer.transform(source, result);
 		 
-				logger.info("Features file: "+featureFile+" created");			
+				logger.info("Features file created and saved in: "+featureFile);			
  
 		
 		} catch (TransformerException | ParserConfigurationException e) {
@@ -224,7 +249,7 @@ public class VariantBuilder {
 	public void createPhoneSpecialFeatures(List<SpecialFeature> specialFeaturesList) {
 		//File featureFile= new File(outputDir+assetName+separator+assetName+featureExtension);
 		File specFeatureFile = new File(getSpecFeatureFile());
-		logger.debug(specFeatureFile.getAbsolutePath());		
+				
 		
 		try {
 			 
@@ -237,10 +262,15 @@ public class VariantBuilder {
 			doc.appendChild(root);
  
 			for (SpecialFeature sf: specialFeaturesList) {
-			    Element specFeatureName = doc.createElement("reference");
-				specFeatureName.appendChild(doc.createTextNode(sf.getSpecialFeatureName()));
-				root.appendChild(specFeatureName);
-				
+				if (sf.getSpecialFeatureName()!=null) {
+				    Element specFeatureName = doc.createElement("reference");
+					specFeatureName.appendChild(doc.createTextNode(sf.getSpecialFeatureName()));
+					root.appendChild(specFeatureName);
+				} else if (sf.getSpecialFeatureId()!=null) {
+					Element specFeatureName = doc.createElement("reference");
+					specFeatureName.appendChild(doc.createTextNode(sf.getSpecialFeatureId()));
+					root.appendChild(specFeatureName);
+				}				
 				}
 			 
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -251,7 +281,7 @@ public class VariantBuilder {
 				StreamResult result = new StreamResult(specFeatureFile);
 							transformer.transform(source, result);
 		 
-				logger.info("Features file: "+specFeatureFile+" created");			
+				logger.info("Special Features file created and saved in: "+specFeatureFile);			
  
 		
 		} catch (TransformerException | ParserConfigurationException e) {
@@ -396,8 +426,7 @@ public class VariantBuilder {
 	public void createPhoneTechSpec(List<Group> groupList) {
 		//File featureFile= new File(outputDir+assetName+separator+assetName+featureExtension);
 		File techSpecFile = new File(getTechSpecFile());
-		logger.debug(techSpecFile.getAbsolutePath());		
-		
+				
 		try {
 			 
 			logger.debug("Writing tech spec on a separate .xml file...");
@@ -412,6 +441,14 @@ public class VariantBuilder {
 			Element os = doc.createElement("os");
 			os.appendChild(doc.createTextNode(groupList.get(0).getValue()));
 			root.appendChild(os);
+			
+			Element processor = doc.createElement("processor");
+			processor.appendChild(doc.createTextNode(groupList.get(2).getSpecBySpecType("processor")));
+			root.appendChild(processor);
+			
+			Element memory = doc.createElement("memory");
+			memory.appendChild(doc.createTextNode(groupList.get(2).getSpecBySpecType("memory")));
+			root.appendChild(memory);
 		
  
 			for (int i = 1; i < groupList.size(); i++) {
@@ -427,17 +464,17 @@ public class VariantBuilder {
 					order.appendChild(doc.createTextNode(groupList.get(i).getOrder()));
 					group.appendChild(order);
 					
-					if ((groupList.get(i).getThumb()!=null)&&(!groupList.get(i).getThumb().equals(""))) {
+				/*	if ((groupList.get(i).getThumb()!=null)&&(!groupList.get(i).getThumb().equals(""))) {
 						Element thumb = doc.createElement("thumb");
 						thumb.appendChild(doc.createTextNode(groupList.get(i).getThumb()));
 						group.appendChild(thumb);
-					}
+					}*/
 					if (specList!=null) {
 						Element specs = doc.createElement("specs");
 						group.appendChild(specs);
 						
 						for (int j = 0; j < specList.size(); j ++) {						
-							if((specList.get(j).getType()!=null) && (specList.get(j).getType()!=null)) {
+							if((specList.get(j).getType()!=null) && (specList.get(j).getType()!=null) &&(!specList.get(j).getType().equalsIgnoreCase("processor"))&&(!specList.get(j).getType().equalsIgnoreCase("memory"))) {
 								Element spec = doc.createElement("spec");
 								spec.setAttribute("order", specList.get(j).getOrder());
 								spec.setAttribute("type", specList.get(j).getType());
@@ -471,5 +508,53 @@ public class VariantBuilder {
 		}
 
 	}
+	
+	/**
+	 * Creates the xml file representing the compareFeatures of the phone, starting from the Features list and the asset name
+	 * the file will have this structure:
+	 * <?xml version="1.0" encoding="UTF-8"?>
+		<references> 
+			<reference>lg-mach-android-4point0</reference>
+		</references>
+	 */
+	public void createPhoneCompareFeatures(List<String> compareList) {
+		
+		File compareFeatureFile = new File(getCompareFeaturesFile());		
+				
+		try {
+			 
+			logger.debug("Writing compare features on a separate .xml file...");
+			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();	
+			Document doc = docBuilder.newDocument();
+			Element root = doc.createElement("references");
+			doc.appendChild(root);
+ 
+			for (String s: compareList) {
+			
+				if ((s!= null) && (!("").equals(s))) {
+					Element compare = doc.createElement("reference");
+					compare.appendChild(doc.createTextNode(s));
+					root.appendChild(compare);
+				} 
+			}
+			 
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+				DOMSource source = new DOMSource(doc);
+				
+				StreamResult result = new StreamResult(compareFeatureFile);
+							transformer.transform(source, result);
+		 
+				logger.info("Compare Features file created and saved in: "+ compareFeatureFile);			
+ 
+		
+		} catch (TransformerException | ParserConfigurationException e) {
+			logger.error(e.getMessage());
+		}
+
+}
 	
 }
