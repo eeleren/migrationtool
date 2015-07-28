@@ -20,9 +20,11 @@ import org.w3c.dom.Element;
 import com.ericsson.pc.migrationtool.bean.Accessory;
 import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.builder.accessory.AccessoryConstants;
+import com.ericsson.pc.migrationtool.builder.phone.ImageBuilder;
 import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 import com.ericsson.pc.migrationtool.msdp.AccessoryAssetStructure;
 import com.ericsson.pc.migrationtool.msdp.AccessoryField;
+import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.util.PathUtil;
 
 
@@ -69,11 +71,13 @@ public class AccessoryBuilder extends Builder {
 			//setting asset fields with boost values
 			
 			logger.debug("Creating accessory asset");
-			asset.setExternalId(accessory.getId());	
+			asset.setExternalId(accessory.getId());
+			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.SKU_FIELD, accessory.getId());
 			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.ASSET_DESCRIPTION_FIELD, accessory.getDescription());	
 			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.LABEL_FIELD, accessory.getLabel());		
-			//asset.setCategory?			
-					
+			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.TYPE, accessory.getCategory());
+			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.SALE_PRICE, accessory.getSalePrice());
+			asset.setAccessoryFieldValueByFieldName(AccessoryConstants.ORIGINAL_PRICE, accessory.getOriginalPrice());
 		
 		return asset;
 	}
@@ -116,8 +120,9 @@ public class AccessoryBuilder extends Builder {
 				
 				
 				Element rootElement = doc.createElement(AccessoryConstants.ACCESSORY_VALUE);
-				String externalId = (String) assetAccessory.getAccessoryFieldByName(AccessoryConstants.EXTERNAL_ID).getValue();
-				rootElement.setAttribute(AccessoryConstants.EXTERNAL_ID,externalId);
+//				String externalId = (String) assetAccessory.getAccessoryFieldByName(AccessoryConstants.EXTERNAL_ID_FIELD).getValue();
+				String externalId = assetAccessory.getExternalId();
+				rootElement.setAttribute(AccessoryConstants.EXTERNAL_ID_FIELD,externalId);
 				asset.appendChild(rootElement);
 				
 				//iteration over AccessoryField elements
@@ -132,8 +137,34 @@ public class AccessoryBuilder extends Builder {
 						rootElement.appendChild(e);
 						
 						//analysis of variants elements: pictures, extrafeatures, specialfeatures, techspec
+					} else if (f.getValue() != null) {
+						Element e = doc.createElement(f.getName());
+						e.appendChild(doc.createTextNode((String) f.getValue()));
+						rootElement.appendChild(e);
+						
+						//building images part
+					} else if (f.getName().equals(AccessoryConstants.PICTURE_SHOP)) {
+						System.out.println("va cac");
+//						logger.debug("creating xml structure for cart images");
+//						// images found in the directory
+//						ImageBuilder imageBuilder = new ImageBuilder();
+//					//	String imageDir = getImageDir(assetPhone);
+//						ImageItem cartImage = imageBuilder.getCartImage(getImageDirFromSlug());
+//						if (cartImage != null) {
+//							Element e = doc.createElement(f.getName());
+//							Element variant = doc.createElement("variant");
+//							Element item = doc.createElement("item");
+//							item.setAttribute("uri", cartImage.getName());
+//							variant.appendChild(item);
+//							e.appendChild(variant);
+//							rootElement.appendChild(e);
+//
+//							imageBuilder.moveImage(cartImage, outputDir	+ getAssetOutputDir());
+//						} else {
+//							logger.error("cart image not found for asset:"	+ filename);
+//						}
 					}
-				}
+				} 
 				
 				
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();

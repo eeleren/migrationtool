@@ -61,9 +61,10 @@ public AccessoryAssetStructure() {
 		
 	fieldOrderList.add(AccessoryConstants.DEPLOYED_FIELD);
 	fieldOrderList.add(AccessoryConstants.SERVICE_FIELD);
+	fieldOrderList.add(AccessoryConstants.SKU_FIELD);
 	fieldOrderList.add(AccessoryConstants.BRAND_ID_FIELD);
-	fieldOrderList.add(AccessoryConstants.MSRP_FIELD);
-	fieldOrderList.add(AccessoryConstants.EQP_FIELD);
+	fieldOrderList.add(AccessoryConstants.ORIGINAL_PRICE);
+	fieldOrderList.add(AccessoryConstants.SALE_PRICE);
 	fieldOrderList.add(AccessoryConstants.MIN_ADV_PRICE_FIELD);
 	fieldOrderList.add(AccessoryConstants.THEME_NAME_FIELD);
 	fieldOrderList.add(AccessoryConstants.THEME_START_DATE_FIELD);
@@ -79,14 +80,22 @@ public AccessoryAssetStructure() {
 	fieldOrderList.add(AccessoryConstants.DEFAULT_VARIANT_ID_FIELD);
 	fieldOrderList.add(AccessoryConstants.BAZAAR_VOICE_VAR_ID_FIELD);
 	fieldOrderList.add(AccessoryConstants.VARIANT_PRIORITY_FIELD);
-	fieldOrderList.add(AccessoryConstants.GROUP_PURCH_LIMIT_FIELD);	
+	fieldOrderList.add(AccessoryConstants.GROUP_PURCH_LIMIT_FIELD);
+	fieldOrderList.add(AccessoryConstants.PRICE_START_DATE);
+	fieldOrderList.add(AccessoryConstants.TYPE);
+	fieldOrderList.add(AccessoryConstants.PICTURE_SHOP);
+	fieldOrderList.add(AccessoryConstants.PICTURE_CHECKOUT);
+	
 		
 	mandatoryFields.put(AccessoryConstants.DEPLOYED_FIELD,AccessoryConstants.DEPLOYED_VALUE);
 	mandatoryFields.put(AccessoryConstants.SERVICE_FIELD,AccessoryConstants.SERVICE_VALUE);
-	mandatoryFields.put(AccessoryConstants.MSRP_FIELD,AccessoryConstants.MSRP_VALUE);
-	mandatoryFields.put(AccessoryConstants.EQP_FIELD,AccessoryConstants.EQP_VALUE);
+	mandatoryFields.put(AccessoryConstants.SKU_FIELD,AccessoryConstants.SKU_FIELD);
+	mandatoryFields.put(AccessoryConstants.BRAND_ID_FIELD,AccessoryConstants.BRAND_ID_VALUE);
+	mandatoryFields.put(AccessoryConstants.ORIGINAL_PRICE,AccessoryConstants.ORIGINAL_PRICE_VALUE);
+	mandatoryFields.put(AccessoryConstants.SALE_PRICE,AccessoryConstants.SALE_PRICE_VALUE);
 	mandatoryFields.put(AccessoryConstants.OOS_THRESHOLD_FIELD,AccessoryConstants.OOS_THRESHOLD_VALUE);
 	mandatoryFields.put(AccessoryConstants.AVAILABLE_FIELD,AccessoryConstants.AVAILABLE_VALUE);
+	mandatoryFields.put(AccessoryConstants.TYPE,AccessoryConstants.TYPE_VALUE);
 
 	}
 

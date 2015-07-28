@@ -33,6 +33,7 @@ import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.LogUtil;
 import com.ericsson.pc.migrationtool.util.PathUtil;
+import com.ericsson.pc.migrationtool.util.StringUtil;
 import com.ericsson.pc.migrationtool.util.XPathUtil;
 
 public class PhoneParser implements Parser {
@@ -118,7 +119,27 @@ public class PhoneParser implements Parser {
 		        	String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + sku +"']/prices/price/original-price/text()");
 		        	phone.setOriginalPrice(originalPrice);
 	        	}
+	        	
+	        	
+	        	//Fetching prices for accessories
+	        	List<Accessory> accessoryList = phone.getAccessories();
+	        	
+	        	for (Accessory a: accessoryList) {
+		        	String accessoryId = a.getId();
+		        	
+		        	String type = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/@product-type");
+		        	String startDate = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/@start-date");
+		        	String originalPrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/original-price/text()");
+		        	String salePrice = XPathUtil.getValueAsString(doc, xpath, "/payload/products/product[@id='" + accessoryId +"']/prices/price/sale-price/text()");
+		        	
+		        	a.setType(type);
+		        	a.setStartDate(startDate);
+		        	a.setOriginalPrice(originalPrice);
+		        	a.setSalePrice(salePrice);
+		        }
 	        }
+	        
+	        
 			
 		} catch (Exception e) {
 			logger.error(e, e);
@@ -333,8 +354,11 @@ public class PhoneParser implements Parser {
 	    		accessoryList.add(new Accessory(nodeList.item(i).getNodeValue()));;
 	    	}
 	    	
+
+
 	    	//COMPARE OLD Structure
 	    
+
 	    	/*phone.setCompareItemOS(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='os']"));
 	    	phone.setCompareItemDisplay(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='display']"));
 	    	phone.setCompareItemCamera(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='camera']"));
@@ -384,7 +408,7 @@ public class PhoneParser implements Parser {
 	    	Feature feature = null;
 	    	NodeList nodeListFeature = XPathUtil.getValueAsNodes(doc, xpath, "/page/product/features/feature");
 	    	
-	    	for(int i=0; i< nodeListFeature.getLength(); i++) {
+	    	for(int i=0; i<nodeListFeature.getLength(); i++) {
 	    		feature = new Feature();
 	    		feature.setFeatureId(String.valueOf(i));
 	    		Node node = nodeListFeature.item(i).getAttributes().getNamedItem("icon");
@@ -395,17 +419,17 @@ public class PhoneParser implements Parser {
 	        		feature.setExtraFeatureDescription(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/description/text()"));
 	        		
 	        		if (feature.getExtraFeatureIconName().equals("")||feature.getExtraFeatureIconName()==null) {
-	        			logger.debug("feature second structure");
+
 	        			//feature second structure
 	        			//feature.setExtraFeatureIconName(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/title/text()"));	
 	        			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
 	        			logger.debug(nodeId.getNodeValue());
 	        		}
 	    		} else {
-	    			
+
 	    			//feature alternative structure
 	    			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
-	    			Node nodeFeatured = nodeListFeature.item(i).getAttributes().getNamedItem("featured");
+						Node nodeFeatured = nodeListFeature.item(i).getAttributes().getNamedItem("featured");
 	    			if(nodeId!=null) {
 	    				feature.setFeatureId(nodeId.getNodeValue());
 	    			}
@@ -417,8 +441,10 @@ public class PhoneParser implements Parser {
 	    		
 	    		featureList.add(feature);
 	    	}
-	    	//Promo mobile-id feature
-	    	
+
+	 
+
+
 	    	
 	    	//SPEACIAL FEATURES
 	    	List<SpecialFeature> specialFeatureList = phone.getSpecialFeatureList();
@@ -479,6 +505,7 @@ public class PhoneParser implements Parser {
 			
 		phone.setCompareStructure();
 		phone.setSpecFeatureStructure();
+
 	        
 			
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -487,6 +514,5 @@ public class PhoneParser implements Parser {
 			
 		return phone;
 	}
-	
-	
+
 }
