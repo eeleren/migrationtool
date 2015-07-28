@@ -11,6 +11,7 @@ public class PhoneConstants {
 	public static final String FEATURES_EXTENSION = "_features.xml";
 	public static final String SPEC_FEATURES_EXTENSION = "_spec_features.xml";
 	public static final String TECHSPEC_EXTENSION = "_techspec_features.xml";
+	public static final String COMPARE_FEATURES_EXTENSION = "_compare_features.xml";
 	
 	//asset fields
 	public static final String ASSET_FIELD = "asset";
@@ -104,12 +105,10 @@ public class PhoneConstants {
 	public static final String COMPARE_ITEM_VISUAL_VOICE_MAIL_FIELD = "compareItemVisualVoicemail";
 	public static final String COMPARE_ITEM_3G_FIELD = "compareItem3G";
 	public static final String COMPARE_ITEM_BLUETOOTH_FIELD = "compareItemBluetooth";
-	//public static final String EXTRA_FEAT_COUNT_FIELD = "extraFeatureCount";
 	public static final String FEATURES_FIELD = "features";
-	//public static final String SPEC_FEAT_COUNT_LIST_FIELD = "specialFeatureListCount";
 	public static final String SPEC_FEATURES_FIELD = "specialFeatures";
-	//public static final String TECH_SPEC_GROUP_COUNT_FIELD = "techSpecsGroupCount";
 	public static final String TECH_SPEC_VARIANT_FIELD = "techSpecs";
+	public static final String COMPARE_FEATURES_VARIANT_FIELD = "compareFeatures";
 	public static final String PICTURES_PHONE_DETAILS = "phoneDetails";
 	public static final String PICTURES_SHOP_GRID = "shopGrid";
 	public static final String PICTURES_COMPARE = "compare";
@@ -122,17 +121,6 @@ public class PhoneConstants {
 	public static final String PHONE_GENIE_FIELD = "phoneGenie";
 	public static final String PHONE_TYPE = "phoneType";
 	public static final String USER_GUIDE_NAME = "UserGuideName";
-	//public static final String SPEC_HEIGHT_FIELD = "specificationsHeight";
-	//public static final String SPEC_WIDTH_FIELD = "specificationsWidth";
-	//public static final String SPEC_DEPTH_FIELD = "specificationsDepth";
-	//public static final String SPEC_WEIGHT_FIELD = "specificationsWeight";
-	//public static final String SPEC_SCREENSIZE_FIELD = "specificationsScreenSize" ;
-	//public static final String SPEC_BATTERYTYPE_FIELD = "specificationsBatteryType";
-	//public static final String SPEC_TALKINGTIME_FIELD = "specificationsTalkingTime";	
-	//public static final String SPEC_REMOVEABLE_FIELD = "specificationsRemoveable";
-	//public static final String SPEC_MEMORY_FIELD = "specificationsMemory";
-	//public static final String SPEC_PROCESSOR_FIELD = "specificationsProcessor";
-	//public static final String SPEC_OS_FIELD = "specificationsOS";
 	public static final String VARIANT_LIST_ORDER_FIELD = "variantListOrder";
 	
 	//asset default values for mandatory fields
@@ -182,6 +170,7 @@ public class PhoneConstants {
 	public static final String PHONE_TYPE_WINDOWS = "Windows";
 	public static final String PHONE_TYPE_BASIC = "Basic";
 	public static final String PHONE_TYPE_BLACKBERRY = "Blackberry";
+	
 	
 	
 	

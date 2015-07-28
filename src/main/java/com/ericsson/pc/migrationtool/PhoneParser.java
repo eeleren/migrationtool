@@ -33,7 +33,6 @@ import com.ericsson.pc.migrationtool.interfaces.Parser;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.LogUtil;
 import com.ericsson.pc.migrationtool.util.PathUtil;
-import com.ericsson.pc.migrationtool.util.StringUtil;
 import com.ericsson.pc.migrationtool.util.XPathUtil;
 
 public class PhoneParser implements Parser {
@@ -334,8 +333,9 @@ public class PhoneParser implements Parser {
 	    		accessoryList.add(new Accessory(nodeList.item(i).getNodeValue()));;
 	    	}
 	    	
-	    	//COMPARE
-	    	phone.setCompareItemOS(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='os']"));
+	    	//COMPARE OLD Structure
+	    
+	    	/*phone.setCompareItemOS(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='os']"));
 	    	phone.setCompareItemDisplay(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='display']"));
 	    	phone.setCompareItemCamera(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='camera']"));
 	    	phone.setCompareItemWifi(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='wifi']"));
@@ -354,14 +354,37 @@ public class PhoneParser implements Parser {
 	    	phone.setCompareItemCalendar(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='calendar']"));
 	    	phone.setCompareItemVisualVoicemail(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='visual-voicemail']"));
 	    	phone.setCompareItem3G(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='3g']"));
-	    	phone.setCompareItemBluetooth(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='bluetooth']"));
+	    	phone.setCompareItemBluetooth(XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='bluetooth']"));*/
 	    	
+	    	//COMPARE -  New Structure in a separate file
+	    	List<String> compareList = phone.getCompareList();
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='os']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='display']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='camera']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='wifi']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='4g']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='hotspot']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='qwerty-keyboard']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='web-browser']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='flash-player']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='email']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='video']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='music-player']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='gps']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='speakerphone']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='memory']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='processor']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='calendar']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='visual-voicemail']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='3g']")));
+	    	compareList.add((XPathUtil.getValueAsString(doc, xpath, "/page/product/compare/item[@id='bluetooth']")));
+	     	
 	    	//features
 	    	List<Feature> featureList = phone.getFeatureList();
 	    	Feature feature = null;
 	    	NodeList nodeListFeature = XPathUtil.getValueAsNodes(doc, xpath, "/page/product/features/feature");
 	    	
-	    	for(int i=0; i<nodeListFeature.getLength(); i++) {
+	    	for(int i=0; i< nodeListFeature.getLength(); i++) {
 	    		feature = new Feature();
 	    		feature.setFeatureId(String.valueOf(i));
 	    		Node node = nodeListFeature.item(i).getAttributes().getNamedItem("icon");
@@ -372,21 +395,30 @@ public class PhoneParser implements Parser {
 	        		feature.setExtraFeatureDescription(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/description/text()"));
 	        		
 	        		if (feature.getExtraFeatureIconName().equals("")||feature.getExtraFeatureIconName()==null) {
+	        			logger.debug("feature second structure");
 	        			//feature second structure
 	        			//feature.setExtraFeatureIconName(XPathUtil.getValueAsString(doc, xpath, "/page/product/features/feature[@icon='" + featureIconName + "']/title/text()"));	
 	        			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
 	        			logger.debug(nodeId.getNodeValue());
 	        		}
 	    		} else {
+	    			
 	    			//feature alternative structure
 	    			Node nodeId = nodeListFeature.item(i).getAttributes().getNamedItem("id");
+	    			Node nodeFeatured = nodeListFeature.item(i).getAttributes().getNamedItem("featured");
 	    			if(nodeId!=null) {
-	    				feature.setExtraFeatureIconName(nodeId.getNodeValue());
+	    				feature.setFeatureId(nodeId.getNodeValue());
+	    			}
+	    			if(nodeFeatured!=null) {
+	    				feature.setFeatured(nodeFeatured.getNodeValue());
+	    				//logger.debug("Node Featured: "+ nodeFeatured.getNodeValue());
 	    			}
 	    		}
 	    		
 	    		featureList.add(feature);
 	    	}
+	    	//Promo mobile-id feature
+	    	
 	    	
 	    	//SPEACIAL FEATURES
 	    	List<SpecialFeature> specialFeatureList = phone.getSpecialFeatureList();
@@ -445,6 +477,8 @@ public class PhoneParser implements Parser {
 				phone.setExternalUrl(phone.getSku());
 			}
 			
+		phone.setCompareStructure();
+		phone.setSpecFeatureStructure();
 	        
 			
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -453,4 +487,6 @@ public class PhoneParser implements Parser {
 			
 		return phone;
 	}
+	
+	
 }

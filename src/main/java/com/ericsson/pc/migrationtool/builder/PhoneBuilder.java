@@ -35,7 +35,6 @@ import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.msdp.PhoneAssetStructure;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.PathUtil;
-import com.ericsson.pc.migrationtool.util.StringUtil;
 import com.ericsson.pc.migrationtool.util.XmlDocumentUtil;
 
 public class PhoneBuilder extends Builder {
@@ -46,6 +45,7 @@ public class PhoneBuilder extends Builder {
 	final String featureExtension = PhoneConstants.FEATURES_EXTENSION;
 	final String specFeatureExtension = PhoneConstants.SPEC_FEATURES_EXTENSION;
 	final String techSpecExtension = PhoneConstants.TECHSPEC_EXTENSION;
+	final String compareExtension = PhoneConstants.COMPARE_FEATURES_EXTENSION;
 
 	private String slug;
 	private String colorVariant = "";
@@ -94,12 +94,15 @@ public class PhoneBuilder extends Builder {
 		List<Variation> variationList = phone.getVariations();
 
 		for (Variation v : variationList) {
+			if ((v.getId()==null)||("".equals(v.getId()))) {
+				break;
+			}
 			variantPhone.setSku(v.getId());
 			variantPhone.setOosThresholdOverride(v.getOosThresholdOverride());
 			variantPhone.setMap(v.getMap());
 			variantPhone.setColorVariant(v.getColorVariant());
 			variantPhone.setGradientColor(v.getGradientColor());
-			variantPhone.setMemoryVariant(v.getMemoryVariant());
+			variantPhone.setMemoryVariant(v.getMemoryVariant());		
 			variantPhone.setParent(v.getId().equalsIgnoreCase(phone.getDefault_id())?"true":"false");
 			variantPhone.setOriginalPrice(v.getOriginalPrice());
 
@@ -181,7 +184,7 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.BING_LID_FIELD, p.getBingLid());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.BING_KWGID_FIELD, p.getBingDsSKwgid());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.ACCESSORY_LIST_FIELD, getAccessories(p.getAccessories()));
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_OS_FIELD, p.getCompareItemOS());
+		/*asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_OS_FIELD, p.getCompareItemOS());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_DISPLAY_FIELD, p.getCompareItemDisplay());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_CAMERA_FIELD, p.getCompareItemCamera());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_WIFI_FIELD, p.getCompareItemWifi());
@@ -200,7 +203,7 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_CALENDAR_FIELD,	p.getCompareItemCalendar());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_VISUAL_VOICE_MAIL_FIELD,p.getCompareItemVisualVoicemail());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_3G_FIELD, p.getCompareItem3G());
-		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD,p.getCompareItemBluetooth());
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD,p.getCompareItemBluetooth());*/
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.FEATURES_FIELD,p.getFeatureList());
 	//	asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD, p.getSpecialFeatureList().size() + "");
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_FEATURES_FIELD,	p.getSpecialFeatureList());
@@ -217,6 +220,7 @@ public class PhoneBuilder extends Builder {
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.SPEC_OS_FIELD,p.getGroupValueById("os"));
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_GROUP_COUNT_FIELD, p.getGroupList().size() + "");*/
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.TECH_SPEC_VARIANT_FIELD, p.getGroupList()); //ebragan: was commented, why?
+		asset.setPhoneFieldValueByFieldName(PhoneConstants.COMPARE_FEATURES_VARIANT_FIELD, p.getCompareList());
 		asset.setPhoneFieldValueByFieldName(PhoneConstants.MSRP_FIELD, p.getOriginalPrice());
 		//asset.setPhoneFieldValueByFieldName(PhoneConstants.PICTURES_PHONE_DETAILS, p.getGalleryImages());
 
@@ -409,6 +413,24 @@ public class PhoneBuilder extends Builder {
 					Element variant = doc.createElement("variant");
 					Element item = doc.createElement("item");
 					item.setAttribute("uri", variantBuilder.getTechSpecName());
+					variant.appendChild(item);
+					e.appendChild(variant);
+					rootElement.appendChild(e);
+					
+				} else if (f.getName().equals(PhoneConstants.COMPARE_FEATURES_VARIANT_FIELD) && (f.getValue() != null)) {
+					// the phone asset contains features variants
+					logger.debug("creating xml structure for compare features..");
+
+					VariantBuilder variantBuilder = new VariantBuilder();
+					variantBuilder.setAssetName(getAssetName());
+					variantBuilder.setCompareFeaturesName(getAssetName() + compareExtension);
+					variantBuilder.setCompareFeaturesFile(outputDir + assetName + File.separator + assetName + compareExtension);
+					variantBuilder.createPhoneCompareFeatures((List<String>) f.getValue());
+
+					Element e = doc.createElement(f.getName());//  compareFeatures element
+					Element variant = doc.createElement("variant");
+					Element item = doc.createElement("item");
+					item.setAttribute("uri", variantBuilder.getCompareFeaturesName());
 					variant.appendChild(item);
 					e.appendChild(variant);
 					rootElement.appendChild(e);

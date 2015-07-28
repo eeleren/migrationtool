@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.ericsson.pc.migrationtool.builder.Builder;
 import com.ericsson.pc.migrationtool.interfaces.Parser;
+import com.ericsson.pc.migrationtool.sftp.SftpClient;
 
 
 
@@ -34,7 +35,8 @@ public class Manager {
 			Class builder = Class.forName("com.ericsson.pc.migrationtool.builder." + assetName + "Builder");
 			
 			((Builder) builder.newInstance()).createAssets(((Parser)parser.newInstance()).execute(fileToBeParsed));
-		
+			//SftpClient client = new SftpClient();
+			//client.startIngestion();
 			
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			logger.error(e, e);

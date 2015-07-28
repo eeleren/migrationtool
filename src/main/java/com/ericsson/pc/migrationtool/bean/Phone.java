@@ -8,6 +8,7 @@ import com.ericsson.pc.migrationtool.bean.Group.Spec;
 
 public class Phone extends Model {
 	
+	
 	//FROM CATALOGUE.XML
 	private String path;
 	private String map;
@@ -60,33 +61,28 @@ public class Phone extends Model {
 	private String bingLid;
 	private String bingDsSKwgid;
 	private List<Accessory> accessories = new ArrayList<Accessory>();
-	private String compareItemOS ;
-	private String compareItemDisplay;
-	private String compareItemCamera;
-	private String compareItemWifi;
-	private String compareItem4G;
-	private String compareItemHotspot;
-	private String compareItemQWERTYKeyboard;
-	private String compareItemWebBrowser;
-	private String compareItemFlashPlayer;
-	private String compareItemEmail;
-	private String compareItemVideo;
-	private String compareItemMusicPlayer;
-	private String compareItemGPS;
-	private String compareItemSpeakerphone;
-	private String compareItemMemory;
-	private String compareItemProcessor;
-	private String compareItemCalendar;
-	private String compareItemVisualVoicemail;
-	private String compareItem3G;
-	private String compareItemBluetooth;
 	private String preowned;	
 	private String sku;
 	private String externalUrl;
 	private String slug;
 	private ArrayList<String> colors = new ArrayList<String>(Arrays.asList("titanium", "white"));
 	private String originalPrice;
-	
+	private List<String> compareList = new ArrayList<String>();
+	private List<Feature> featureList = new ArrayList<Feature>();
+	private List<SpecialFeature> specialFeatureList = new ArrayList<SpecialFeature>();
+	private List<Group> groupList = new ArrayList<Group>();
+	private List<Item> galleryImages = new ArrayList<Item>();
+	private String mobileId;
+
+
+	public List<String> getCompareList() {
+		return compareList;
+	}
+
+	public void setCompareList(List<String> compareList) {
+		this.compareList = compareList;
+	}
+
 	public String getOriginalPrice() {
 		return originalPrice;
 	}
@@ -99,10 +95,7 @@ public class Phone extends Model {
 		return slug;
 	}
 
-	private List<Feature> featureList = new ArrayList<Feature>();
-	private List<SpecialFeature> specialFeatureList = new ArrayList<SpecialFeature>();
-	private List<Group> groupList = new ArrayList<Group>();
-	private List<Item> galleryImages = new ArrayList<Item>();
+
 	
 	
 	//FROM VARIANTS
@@ -157,26 +150,6 @@ public class Phone extends Model {
 		setBingLid(p.getBingLid());
 		setBingDsSKwgid(p.getBingDsSKwgid());
 		setAccessories(p.getAccessories());
-		setCompareItemOS(p.getCompareItemOS());
-		setCompareItemDisplay(p.getCompareItemDisplay());
-		setCompareItemCamera(p.getCompareItemCamera());
-		setCompareItemWifi(p.getCompareItemWifi());
-		setCompareItem4G(p.getCompareItem4G());
-		setCompareItemHotspot(p.getCompareItemHotspot());
-		setCompareItemQWERTYKeyboard(p.getCompareItemQWERTYKeyboard());
-		setCompareItemWebBrowser(p.getCompareItemWebBrowser());
-		setCompareItemFlashPlayer(p.getCompareItemFlashPlayer());
-		setCompareItemEmail(p.getCompareItemEmail());
-		setCompareItemVideo(p.getCompareItemVideo());
-		setCompareItemMusicPlayer(p.getCompareItemMusicPlayer());
-		setCompareItemGPS(p.getCompareItemGPS());
-		setCompareItemSpeakerphone(p.getCompareItemSpeakerphone());
-		setCompareItemMemory(p.getCompareItemMemory());
-		setCompareItemProcessor(p.getCompareItemProcessor());
-		setCompareItemCalendar(p.getCompareItemCalendar());
-		setCompareItemVisualVoicemail(p.getCompareItemVisualVoicemail());
-		setCompareItem3G(p.getCompareItem3G());
-		setCompareItemBluetooth(p.getCompareItemBluetooth());
 		setFeatureList(p.getFeatureList());
 		setSpecialFeatureList(p.getSpecialFeatureList());
 		setGroupList(p.getGroupList());
@@ -186,12 +159,11 @@ public class Phone extends Model {
 		setSku(p.getSku());
 		setSlug(p.getSlug());
 		setOriginalPrice(p.getOriginalPrice());
+		setCompareList(p.getCompareList());
 		
 	};
 	
-	public Phone() {
-		// TODO Auto-generated constructor stub
-	}
+	public Phone() {}
 
 	public String getDefault_id() {
 		return defaultId;
@@ -499,126 +471,7 @@ public class Phone extends Model {
 	public void setAccessories(List<Accessory> accessories) {
 		this.accessories = accessories;
 	}
-	public String getCompareItemOS() {
-		return compareItemOS;
-	}
-	public void setCompareItemOS(String compareItemOS) {
-		this.compareItemOS = compareItemOS;
-	}
-	public String getCompareItemDisplay() {
-		return compareItemDisplay;
-	}
-	public void setCompareItemDisplay(String compareItemDisplay) {
-		this.compareItemDisplay = compareItemDisplay;
-	}
-	public String getCompareItemCamera() {
-		return compareItemCamera;
-	}
-	public void setCompareItemCamera(String compareItemCamera) {
-		this.compareItemCamera = compareItemCamera;
-	}
-	public String getCompareItemWifi() {
-		return compareItemWifi;
-	}
-	public void setCompareItemWifi(String compareItemWifi) {
-		this.compareItemWifi = compareItemWifi;
-	}
-	public String getCompareItem4G() {
-		return compareItem4G;
-	}
-	public void setCompareItem4G(String compareItem4G) {
-		this.compareItem4G = compareItem4G;
-	}
-	public String getCompareItemHotspot() {
-		return compareItemHotspot;
-	}
-	public void setCompareItemHotspot(String compareItemHotspot) {
-		this.compareItemHotspot = compareItemHotspot;
-	}
-	public String getCompareItemQWERTYKeyboard() {
-		return compareItemQWERTYKeyboard;
-	}
-	public void setCompareItemQWERTYKeyboard(String compareItemQWERTYKeyboard) {
-		this.compareItemQWERTYKeyboard = compareItemQWERTYKeyboard;
-	}
-	public String getCompareItemWebBrowser() {
-		return compareItemWebBrowser;
-	}
-	public void setCompareItemWebBrowser(String compareItemWebBrowser) {
-		this.compareItemWebBrowser = compareItemWebBrowser;
-	}
-	public String getCompareItemFlashPlayer() {
-		return compareItemFlashPlayer;
-	}
-	public void setCompareItemFlashPlayer(String compareItemFlashPlayer) {
-		this.compareItemFlashPlayer = compareItemFlashPlayer;
-	}
-	public String getCompareItemEmail() {
-		return compareItemEmail;
-	}
-	public void setCompareItemEmail(String compareItemEmail) {
-		this.compareItemEmail = compareItemEmail;
-	}
-	public String getCompareItemVideo() {
-		return compareItemVideo;
-	}
-	public void setCompareItemVideo(String compareItemVideo) {
-		this.compareItemVideo = compareItemVideo;
-	}
-	public String getCompareItemMusicPlayer() {
-		return compareItemMusicPlayer;
-	}
-	public void setCompareItemMusicPlayer(String compareItemMusicPlayer) {
-		this.compareItemMusicPlayer = compareItemMusicPlayer;
-	}
-	public String getCompareItemGPS() {
-		return compareItemGPS;
-	}
-	public void setCompareItemGPS(String compareItemGPS) {
-		this.compareItemGPS = compareItemGPS;
-	}
-	public String getCompareItemSpeakerphone() {
-		return compareItemSpeakerphone;
-	}
-	public void setCompareItemSpeakerphone(String compareItemSpeakerphone) {
-		this.compareItemSpeakerphone = compareItemSpeakerphone;
-	}
-	public String getCompareItemMemory() {
-		return compareItemMemory;
-	}
-	public void setCompareItemMemory(String compareItemMemory) {
-		this.compareItemMemory = compareItemMemory;
-	}
-	public String getCompareItemProcessor() {
-		return compareItemProcessor;
-	}
-	public void setCompareItemProcessor(String compareItemProcessor) {
-		this.compareItemProcessor = compareItemProcessor;
-	}
-	public String getCompareItemCalendar() {
-		return compareItemCalendar;
-	}
-	public void setCompareItemCalendar(String compareItemCalendar) {
-		this.compareItemCalendar = compareItemCalendar;
-	}
-	public String getCompareItemVisualVoicemail() {
-		return compareItemVisualVoicemail;
-	}
-	public void setCompareItemVisualVoicemail(String compareItemVisualVoicemail) {
-		this.compareItemVisualVoicemail = compareItemVisualVoicemail;
-	}
-	public String getCompareItem3G() {
-		return compareItem3G;
-	}
-	public void setCompareItem3G(String compareItem3G) {
-		this.compareItem3G = compareItem3G;
-	}
-	public String getCompareItemBluetooth() {
-		return compareItemBluetooth;
-	}
-	public void setCompareItemBluetooth(String compareItemBluetooth) {
-		this.compareItemBluetooth = compareItemBluetooth;
-	}
+
 	public List<Feature> getFeatureList() {
 		return featureList;
 	}
@@ -697,6 +550,15 @@ public class Phone extends Model {
 		this.externalUrl = externalUrl;
 	}
 	
+	
+	public String getMobileId() {
+		return mobileId;
+	}
+
+	public void setMobileId(String mobileId) {
+		this.mobileId = mobileId;
+	}
+	
 	public String getGroupValueById(String id) {
 		
 		List<Group> groups = this.getGroupList();
@@ -731,4 +593,54 @@ public class Phone extends Model {
 		this.slug = slug;
 		
 	}
+	/**
+	 * Check whether compare structure is in the format: 
+	 *   
+	 *   <feature id="4g" featured="compare_only" url="" order=""></feature>
+	 *   
+	 *   or
+	 *      <compare> 
+            <item id="os"><![CDATA[Android&#8482; 2.3.6]]></item> 
+            </compare>
+            
+       and update the Phone accordingly
+	 * */
+	public void setCompareStructure() {
+		List<String> compareList = this.getCompareList();
+		List<Feature> featureList = this.getFeatureList();
+		for (Feature f : featureList) {
+			if((f.getFeatured()!=null)||("".equals(f.getFeatured()))) {
+				if(f.getFeatured().equalsIgnoreCase("compare_only")) {
+					compareList.add(f.getFeatureId());
+				}
+			}
+		
+		}
+		
+	}
+	
+	/**
+	 * Check whether special features are listed as features using the following structure: 
+	 *   
+	 *   <feature id="4g" featured="false" url="" order=""></feature>
+	 *   
+	 *in case the field featured is equals to false, the feature is a special features and the phone is updated accordingly
+	 * */
+	public void setSpecFeatureStructure() {
+		List<SpecialFeature> specFeaturesList = this.getSpecialFeatureList();
+		List<Feature> featureList = this.getFeatureList();
+		for (Feature f : featureList) {
+			if((f.getFeatured()!=null)||("".equals(f.getFeatured()))) {
+				if(f.getFeatured().equalsIgnoreCase("false")) {
+					SpecialFeature sf = new SpecialFeature();
+					sf.setSpecialFeatureId(f.getFeatureId());
+					specFeaturesList.add(sf);
+				}
+			}
+		
+		}
+		
+	}
+	
+
 }

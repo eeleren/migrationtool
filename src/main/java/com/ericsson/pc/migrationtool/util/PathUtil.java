@@ -20,6 +20,7 @@ public class PathUtil {
 	private static String OUTPUT_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.outputdir");
 	private static String PHONE_MANUAL_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.phonemanual");
 	private static String PRICES_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.prices");
+	private static String PROMOS_FILE_PATH = ApplicationPropertiesReader.getInstance().getProperty("parser.file.promos");
 	private static String PHONE_FILE_EXTENSION = ".xml";
 
 	public static String getCataloguePath() {
@@ -115,6 +116,10 @@ public class PathUtil {
 
 	public static String getPricesPath() {
 		return PRICES_FILE_PATH;
+	}
+
+	public static String getPromosPath() {	
+		return PROMOS_FILE_PATH;
 	}
 
 

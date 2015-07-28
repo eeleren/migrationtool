@@ -35,7 +35,7 @@ public class PhoneAssetStructure {
 	private List<String> fieldOrderList = new LinkedList<String>();
 	
 	
-public List<AssetField> getPhoneFieldList() {
+	public List<AssetField> getPhoneFieldList() {
 		return phoneFieldList;
 	}
 
@@ -150,7 +150,7 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.BING_LID_FIELD);
 		fieldOrderList.add(PhoneConstants.BING_KWGID_FIELD);
 		fieldOrderList.add(PhoneConstants.ACCESSORY_LIST_FIELD);
-		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_OS_FIELD);
+		/*	fieldOrderList.add(PhoneConstants.COMPARE_ITEM_OS_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_DISPLAY_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_CAMERA_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_WIFI_FIELD);
@@ -169,7 +169,7 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_CALENDAR_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_VISUAL_VOICE_MAIL_FIELD);
 		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_3G_FIELD);
-		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD);
+		fieldOrderList.add(PhoneConstants.COMPARE_ITEM_BLUETOOTH_FIELD);*/
 		//fieldOrderList.add(PhoneConstants.EXTRA_FEAT_COUNT_FIELD);
 		fieldOrderList.add(PhoneConstants.FEATURES_FIELD);
 		//fieldOrderList.add(PhoneConstants.SPEC_FEAT_COUNT_LIST_FIELD);
@@ -186,6 +186,7 @@ public List<AssetField> getPhoneFieldList() {
 		fieldOrderList.add(PhoneConstants.SPEC_PROCESSOR_FIELD);
 		fieldOrderList.add(PhoneConstants.SPEC_OS_FIELD);*/
 		fieldOrderList.add(PhoneConstants.TECH_SPEC_VARIANT_FIELD);
+		fieldOrderList.add(PhoneConstants.COMPARE_FEATURES_VARIANT_FIELD);
 		fieldOrderList.add(PhoneConstants.PICTURES_PHONE_DETAILS);
 		fieldOrderList.add(PhoneConstants.PICTURES_FEATURES);
 		fieldOrderList.add(PhoneConstants.PICTURES_SHOP_GRID);

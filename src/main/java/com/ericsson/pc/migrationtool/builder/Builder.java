@@ -43,7 +43,7 @@ public abstract class Builder {
 	}	
 	
 	public void setAssetName(String assetBrand, String assetName, String variantColor, String variantMemory) {	
-		if (variantMemory == null) {
+		if ((variantMemory == null)||("".equalsIgnoreCase(variantMemory))) {
 			setAssetName(assetBrand, assetName, variantColor);
 		} else {
 			this.assetName = assetBrand + "_" + assetName + "_" + variantColor + "_" + variantMemory ;

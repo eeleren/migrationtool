@@ -78,9 +78,23 @@ public class Group {
 		this.listSpec = listSpec;
 	}
 	
+	public String getSpecBySpecType(String type) {	
+		List<Spec> specs = this.getListSpec();
+		String result = "";
+ 		for (Spec s: specs) {		
+			if(s.getType().equalsIgnoreCase(type)) {
+				result = s.getValue();
+			}
+ 		}
+	
+ 		if ((result==null)||(("").equalsIgnoreCase(result))) {
+ 			result = "Not Available";
+ 		}
+ 		return result;
+	}
 	
 	
 	
+
 
 }
-
