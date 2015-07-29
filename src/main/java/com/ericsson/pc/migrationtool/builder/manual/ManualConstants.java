@@ -15,7 +15,7 @@ public class ManualConstants {
 	
 	public static final String SERVICE_VALUE = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.manual.serviceId");
 	public static final String FILENAME_VALUE = "filename";
-	public static final String PHONE_MANUAL = "phone_manual";
+	public static final String PHONE_MANUAL = "phonemanual";
 	public static final String ID_FIELD = "id";
 	
 	public static final String FILE_EXTENSION = "_manual_asset.xml";

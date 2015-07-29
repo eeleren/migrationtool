@@ -32,6 +32,7 @@ public class AccessoryBuilder extends Builder {
 	
 	private String relatedPhoneName;
 	private String relatedPhoneBrand;
+	private String externalId = null;
 	
 	public String getRelatedPhoneName() {
 		return relatedPhoneName;
@@ -122,6 +123,7 @@ public class AccessoryBuilder extends Builder {
 				Element rootElement = doc.createElement(AccessoryConstants.ACCESSORY_VALUE);
 //				String externalId = (String) assetAccessory.getAccessoryFieldByName(AccessoryConstants.EXTERNAL_ID_FIELD).getValue();
 				String externalId = assetAccessory.getExternalId();
+				this.externalId = externalId;
 				rootElement.setAttribute(AccessoryConstants.EXTERNAL_ID_FIELD,externalId);
 				asset.appendChild(rootElement);
 				
@@ -144,25 +146,43 @@ public class AccessoryBuilder extends Builder {
 						
 						//building images part
 					} else if (f.getName().equals(AccessoryConstants.PICTURE_SHOP)) {
-						System.out.println("va cac");
-//						logger.debug("creating xml structure for cart images");
+						logger.debug("creating xml structure for pictures shop images");
 //						// images found in the directory
-//						ImageBuilder imageBuilder = new ImageBuilder();
-//					//	String imageDir = getImageDir(assetPhone);
-//						ImageItem cartImage = imageBuilder.getCartImage(getImageDirFromSlug());
-//						if (cartImage != null) {
-//							Element e = doc.createElement(f.getName());
-//							Element variant = doc.createElement("variant");
-//							Element item = doc.createElement("item");
-//							item.setAttribute("uri", cartImage.getName());
-//							variant.appendChild(item);
-//							e.appendChild(variant);
-//							rootElement.appendChild(e);
+						ImageBuilder imageBuilder = new ImageBuilder();
+//						String imageDir = getImageDir(assetPhone);
+						ImageItem shopImage = imageBuilder.getAccessoryShopImage(this.getImageDirFromSku());
+						if (shopImage != null) {
+							Element e = doc.createElement(f.getName());
+							Element variant = doc.createElement("variant");
+							Element item = doc.createElement("item");
+							item.setAttribute("uri", shopImage.getName());
+							variant.appendChild(item);
+							e.appendChild(variant);
+							rootElement.appendChild(e);
 //
-//							imageBuilder.moveImage(cartImage, outputDir	+ getAssetOutputDir());
-//						} else {
-//							logger.error("cart image not found for asset:"	+ filename);
-//						}
+							imageBuilder.moveImage(shopImage, outputDir	+ getAssetOutputDir());
+						} else {
+							logger.error("shop image not found for asset:"	+ filename);
+						}
+					} else if (f.getName().equals(AccessoryConstants.PICTURE_CHECKOUT)) {
+						logger.debug("creating xml structure for pictures cart images");
+//						// images found in the directory
+						ImageBuilder imageBuilder = new ImageBuilder();
+//						String imageDir = getImageDir(assetPhone);
+						ImageItem cartImage = imageBuilder.getAccessoryCartImage(this.getImageDirFromSku());
+						if (cartImage != null && cartImage.getPath() != null) {
+							Element e = doc.createElement(f.getName());
+							Element variant = doc.createElement("variant");
+							Element item = doc.createElement("item");
+							item.setAttribute("uri", cartImage.getName());
+							variant.appendChild(item);
+							e.appendChild(variant);
+							rootElement.appendChild(e);
+//
+							imageBuilder.moveImage(cartImage, outputDir	+ getAssetOutputDir());
+						} else {
+							logger.error("cart image not found for asset:"	+ filename);
+						}
 					}
 				} 
 				
@@ -201,5 +221,9 @@ public class AccessoryBuilder extends Builder {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String getImageDirFromSku() {
+		String imageDir = ImageBuilder.getACCESSORY_IMAGE_FILE_PATH() + File.separator + this.externalId;
+		return imageDir;
+	}
 }
-

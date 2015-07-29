@@ -20,8 +20,10 @@ import org.w3c.dom.Element;
 import com.ericsson.pc.migrationtool.bean.Model;
 import com.ericsson.pc.migrationtool.bean.PhoneManual;
 import com.ericsson.pc.migrationtool.builder.manual.ManualConstants;
+import com.ericsson.pc.migrationtool.builder.phone.ImageBuilder;
 import com.ericsson.pc.migrationtool.builder.phone.PhoneConstants;
 import com.ericsson.pc.migrationtool.msdp.AssetField;
+import com.ericsson.pc.migrationtool.msdp.ImageItem;
 import com.ericsson.pc.migrationtool.msdp.ManualAssetStructure;
 import com.ericsson.pc.migrationtool.util.ApplicationPropertiesReader;
 import com.ericsson.pc.migrationtool.util.PathUtil;
@@ -32,7 +34,8 @@ import com.ericsson.pc.migrationtool.util.XmlDocumentUtil;
 public class PhoneManualBuilder extends Builder {
 	
 	final static String brandId = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.phone.brandId");	
-	final static String user_guide_dir = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.manual.userGuidesPath");
+	final static String USER_GUIDE_DIR = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.manual.userGuidesPath");
+	final static String USER_GUIDE_IMAGES = ApplicationPropertiesReader.getInstance().getProperty("builder.asset.manual.userGuidesImagePath");
 	
 	private String phoneManualId = "";
 	protected final String extension = ManualConstants.FILE_EXTENSION;
@@ -65,7 +68,9 @@ public class PhoneManualBuilder extends Builder {
 		logger.info("BUILDING EXECUTION STARTED...");
 		
 		for (PhoneManual pm: manuals) {
-			builder.setAssetName(pm.getFullName());
+			String assetName = pm.getFullName().replaceAll(" ", "_");
+			logger.debug("asset name:"+ assetName);
+			builder.setAssetName(assetName);
 			builder.setPhoneManualId(pm.getId());
 			builder.createPhoneManualAsset(pm);
 		}
@@ -84,6 +89,7 @@ public class PhoneManualBuilder extends Builder {
 		
 		setAssetOutputDir(getAssetName());
 		PathUtil.createAssetOutputDir(getAssetOutputDir());		
+	
 		String filename = getAssetName();
 				
 		List<AssetField> fieldList = phoneManual.getFieldList();	
@@ -106,10 +112,29 @@ public class PhoneManualBuilder extends Builder {
 						}						
 						doc.getElementsByTagName(ManualConstants.PHONE_MANUAL).item(0).appendChild(e);
 						
-						//analysis of variants elements: pictures, extrafeatures, specialfeatures, techspec
+						//analysis of variants elements: pictures, pdf files
+					}else if (f.getName().equals(ManualConstants.USER_GUIDE_IMAGE)) {
+						logger.debug("creating xml structure for user guide images");				
+						ImageBuilder imageBuilder = new ImageBuilder();
+						ImageItem userGuideImage = imageBuilder.getImageByName((String)f.getValue(), USER_GUIDE_IMAGES);
+						Element e = doc.createElement(f.getName());// elemento
+						// pictures
+						if (userGuideImage != null) {
+							
+							Element variant = doc.createElement("variant");
+							Element item = doc.createElement("item");
+							item.setAttribute("uri", userGuideImage.getName());
+							variant.appendChild(item);
+							e.appendChild(variant);
+							doc.getElementsByTagName(ManualConstants.PHONE_MANUAL).item(0).appendChild(e);
+							imageBuilder.moveImage(userGuideImage, outputDir	+ getAssetOutputDir());
+
+						} else {
+							logger.error("images not found for asset:" + filename);
+						}
 					} else if (f.getName().equals(ManualConstants.MANUAL_PDF) && (f.getValue() != null)) {
-						List<String> pdfFiles = getAssetPdfFiles(user_guide_dir, (String)f.getValue());						
-						movePdfFiles(user_guide_dir, pdfFiles);
+						List<String> pdfFiles = getAssetPdfFiles(USER_GUIDE_DIR, (String)f.getValue());						
+						movePdfFiles(USER_GUIDE_DIR, pdfFiles);
 						
 						if (!pdfFiles.isEmpty()) {
 							Element e = doc.createElement(f.getName());
@@ -144,6 +169,7 @@ public class PhoneManualBuilder extends Builder {
 				
 			  }	catch (Exception e) {
 				  logger.error(e.getMessage());
+				  e.printStackTrace();
 			  }
 	}
 	
@@ -170,7 +196,7 @@ public class PhoneManualBuilder extends Builder {
 		
 		String manualFullName = getAssetName();
 		
-		String[] manualDetails = manualFullName.split("\\s+");
+		String[] manualDetails = manualFullName.split("_");
 		String model = manualDetails[1].toLowerCase();
 	
 		File userGuides = new File(userGuideDir);
